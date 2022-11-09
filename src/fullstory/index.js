@@ -1,4 +1,4 @@
-import { info } from "./logging";
+import { info } from "../utils/logging";
 
 export function addFullStory() {
   info("added-fullstory");
