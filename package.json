@@ -1,0 +1,25 @@
+{
+  "name": "@testboxlab/frontend-sdk",
+  "version": "0.0.1",
+  "description": "Integration SDK to allow your web app to work with TestBox",
+  "main": "index.js",
+  "scripts": {
+    "format": "prettier --write src/",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TestBoxLab/frontend-sdk.git"
+  },
+  "author": "Pedals <dev@testbox.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/TestBoxLab/frontend-sdk/issues"
+  },
+  "homepage": "https://github.com/TestBoxLab/frontend-sdk#readme",
+  "devDependencies": {
+    "esbuild": "^0.15.13",
+    "prettier": "^2.7.1",
+    "typescript": "^4.8.4"
+  }
+}
