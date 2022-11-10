@@ -1,9 +1,10 @@
 {
   "name": "@testboxlab/frontend-sdk",
-  "version": "0.0.1",
+  "version": "0.0.1-beta",
   "description": "Integration SDK to allow your web app to work with TestBox",
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
+  "files": ["lib/"],
   "scripts": {
     "format": "prettier --write src/",
     "format:check": "prettier --check src/",

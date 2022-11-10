@@ -1,9 +1,5 @@
 import { getTargetOrigin } from "../config";
-import {
-  TestBoxIncomingEvents,
-  UnionedIncomingEvents,
-  VALID_INCOMING_EVENTS,
-} from "./incoming";
+import { UnionedIncomingEvents, VALID_INCOMING_EVENTS } from "./incoming";
 import { TestBoxOutgoingEvents } from "./outgoing";
 import { MessageSender, TestBoxMessage } from "./types";
 
@@ -28,12 +24,10 @@ export function makeTestBoxEvent<K extends keyof TestBoxOutgoingEvents>(
   };
 }
 
-export function isValidIncomingTestBoxMessage<
-  K extends keyof TestBoxIncomingEvents
->(
+export function isValidIncomingTestBoxMessage<T extends UnionedIncomingEvents>(
   obj: unknown,
-  dataGuard?: (x: unknown) => x is TestBoxIncomingEvents[K]
-): obj is UnionedIncomingEvents {
+  dataGuard?: (x: unknown) => x is T["testbox"]["data"]
+): obj is T {
   if (
     typeof obj === "object" &&
     obj !== null &&
@@ -41,8 +35,8 @@ export function isValidIncomingTestBoxMessage<
     typeof obj["testbox"] === "object"
   ) {
     const { testbox: message } = obj as TestBoxMessage<
-      K,
-      TestBoxIncomingEvents[K]
+      T["testbox"]["event"],
+      T["testbox"]["data"]
     >;
 
     // Make sure this is a valid version and event

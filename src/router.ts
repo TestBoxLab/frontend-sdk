@@ -6,6 +6,8 @@ import {
 } from "./messaging/incoming";
 import { warn } from "./utils/logging";
 
+// Note to future selves: you cannot destructure testbox here, the
+// type narrowing does not work correctly if you do so here.
 export function routeMessage({ testbox }: UnionedIncomingEvents) {
   switch (testbox.event) {
     case INITIALIZE:
