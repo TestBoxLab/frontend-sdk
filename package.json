@@ -4,11 +4,13 @@
   "description": "Integration SDK to allow your web app to work with TestBox",
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
-  "files": ["lib/"],
+  "files": [
+    "lib/"
+  ],
   "scripts": {
     "format": "prettier --write src/",
     "format:check": "prettier --check src/",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "npm run build && cypress",
     "build": "node ci/build.js"
   },
   "repository": {
@@ -22,6 +24,7 @@
   },
   "homepage": "https://github.com/TestBoxLab/frontend-sdk#readme",
   "devDependencies": {
+    "cypress": "^11.0.1",
     "esbuild": "^0.15.13",
     "npm-dts": "^1.3.12",
     "prettier": "^2.7.1",
