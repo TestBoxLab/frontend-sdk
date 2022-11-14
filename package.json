@@ -1,5 +1,5 @@
 {
-  "name": "@testboxlab/frontend-sdk",
+  "name": "@testboxlab/browser",
   "version": "0.0.1-beta",
   "description": "Integration SDK to allow your web app to work with TestBox",
   "main": "lib/index.js",
@@ -15,14 +15,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/TestBoxLab/frontend-sdk.git"
+    "url": "git+https://github.com/TestBoxLab/browser-sdk.git"
   },
   "author": "Pedals <dev@testbox.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/TestBoxLab/frontend-sdk/issues"
+    "url": "https://github.com/TestBoxLab/browser-sdk/issues"
   },
-  "homepage": "https://github.com/TestBoxLab/frontend-sdk#readme",
+  "homepage": "https://github.com/TestBoxLab/browser-sdk#readme",
   "devDependencies": {
     "cypress": "^11.0.1",
     "esbuild": "^0.15.13",
