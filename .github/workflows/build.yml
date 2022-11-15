@@ -57,3 +57,41 @@ jobs:
          key: ${{ needs.install-dependencies.outputs.cache-key }}
      - name: Check prettier formatting
        run: npm run format:check
+
+  run-cypress:
+    name: Run Cypress tests
+    runs-on: ubuntu-latest
+    needs: [install-dependencies]
+    steps:
+     - name: Checkout repository
+       uses: actions/checkout@v3
+     - name: Set up Node
+       uses: actions/setup-node@v3
+       with:
+         node-version: 16.14.0
+     - name: Restore dependencies
+       uses: actions/cache@v3
+       with:
+         path: node_modules
+         key: ${{ needs.install-dependencies.outputs.cache-key }}
+     - name: Run cypress tests
+       run: npm run cypress
+
+  publish:
+    name: Publish to npm
+    if: github.event_name == "push" && github.ref == "refs/branches/main"
+    needs: [check-prettier, run-cypress]
+    steps:
+     - name: Checkout repository
+       uses: actions/checkout@v3
+     - name: Set up Node
+       uses: actions/setup-node@v3
+       with:
+         node-version: 16.14.0
+     - name: Restore dependencies
+       uses: actions/cache@v3
+       with:
+         path: node_modules
+         key: ${{ needs.install-dependencies.outputs.cache-key }}
+     - name: Run semantic release bot
+       run: npx semantic-release
