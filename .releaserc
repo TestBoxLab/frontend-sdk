@@ -1,0 +1,11 @@
+{
+  "branches": [
+    {
+      "name": "main"
+    },
+    {
+      "name": "ci-test",
+      "channel": "ci"
+    }
+  ]
+}
