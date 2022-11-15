@@ -1,10 +1,10 @@
 {
   "branches": {
     "ci-test": {
-      prerelease: true
+      "prerelease": true
     },
     "main": {
-      prerelease: true
+      "prerelease": true
     }
   }
 }
