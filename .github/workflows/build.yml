@@ -74,8 +74,11 @@ jobs:
        with:
          path: node_modules
          key: ${{ needs.install-dependencies.outputs.cache-key }}
-     - name: Run cypress tests
-       run: npm run cypress
+     - name: Run Cypress tests
+       uses: cypress-io/github-action@v4
+       with:
+         build: npm run build
+         start: npx --yes http-server static/
 
   publish:
     name: Publish to npm
