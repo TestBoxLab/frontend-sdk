@@ -7,6 +7,9 @@ on:
     pull_request:
     workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   install-dependencies:
     name: Install Node.js dependencies
@@ -88,6 +91,8 @@ jobs:
     steps:
      - name: Checkout repository
        uses: actions/checkout@v3
+       with:
+        fetch-depth: 0
      - name: Set up Node
        uses: actions/setup-node@v3
        with:
