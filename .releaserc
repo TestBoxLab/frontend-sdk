@@ -1,10 +1,12 @@
 {
-  "branches": {
-    "ci-test": {
+  "branches": [
+    {
+      "name": "ci-test",
       "prerelease": true
     },
-    "main": {
+    {
+      "name": "main",
       "prerelease": true
     }
-  }
+  ]
 }
