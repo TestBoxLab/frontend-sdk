@@ -74,12 +74,9 @@ jobs:
        with:
          path: node_modules
          key: ${{ needs.install-dependencies.outputs.cache-key }}
-     - name: Make executable
-       run: chmod +x ./ci/build-for-test.sh
      - name: Run Cypress tests
        uses: cypress-io/github-action@v4
        with:
-         install: false
          build: bash ./ci/build-for-test.sh
          start: npx --yes http-server static/
 
