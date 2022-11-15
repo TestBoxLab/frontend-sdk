@@ -1,4 +1,4 @@
-import { TestBoxMessage } from "@testboxlab/frontend-sdk/messaging/index";
+import { TestBoxMessage } from ".";
 import { MessageSender } from "./types";
 
 export const NAVIGATE_REQUEST_EVENT = "navigate-request";

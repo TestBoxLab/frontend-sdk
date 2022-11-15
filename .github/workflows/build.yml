@@ -76,7 +76,7 @@ jobs:
        with:
          path: node_modules
          key: ${{ needs.install-dependencies.outputs.cache-key }}
-     - name: Check prettier formatting
+     - name: Check types
        run: npx tsc
 
   run-cypress:
@@ -98,7 +98,7 @@ jobs:
      - name: Run Cypress tests
        uses: cypress-io/github-action@v4
        with:
-         build: bash ./ci/build-for-test.sh
+         build: npm run build
          start: npx --yes http-server static/
 
   publish:
