@@ -25,7 +25,13 @@ If you just need the basics of TestBox for your app, you'll use something like t
 ```javascript
 import { startTestBox } from "@testboxlab/browser";
 
-startTestBox();
+startTestBox({
+    allowFullStory: true,
+    // Allowing FullStory allows us to give you insights into how users
+    // are using your web application compared to others. However, it is
+    // explicitly opt-in in case you do not wish for your environments
+    // to be recorded.
+});
 ```
 
 This will allow TestBox to communicate with your web site. This communication is
