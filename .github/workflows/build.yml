@@ -82,7 +82,7 @@ jobs:
 
   publish:
     name: Publish to npm
-    if: github.event_name == 'push' && github.ref == 'refs/branches/ci-test'
+    if: github.event_name == 'push' && github.ref == 'refs/heads/ci-test'
     needs: [check-prettier, run-cypress]
     runs-on: ubuntu-latest
     steps:
