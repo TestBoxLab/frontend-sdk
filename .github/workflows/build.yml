@@ -77,7 +77,8 @@ jobs:
      - name: Run Cypress tests
        uses: cypress-io/github-action@v4
        with:
-         build: ci/build-for-test.sh
+         install: false
+         build: ./ci/build-for-test.sh
          start: npx --yes http-server static/
 
   publish:
