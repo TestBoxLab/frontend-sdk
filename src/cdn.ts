@@ -1,0 +1,2 @@
+import { startTestBox } from ".";
+startTestBox();

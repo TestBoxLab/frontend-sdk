@@ -1,4 +1,5 @@
 export interface TestBoxConfig {
+  allowFullStory?: boolean;
   logLevel?: string;
   targetOrigin?: string;
   linkTargetLoopInterval?: number;
@@ -23,5 +24,5 @@ export function getConfigItem<K extends keyof TestBoxConfig>(
   key: K,
   fallback?: TestBoxConfig[K]
 ): TestBoxConfig[K] {
-  return window.__tbxConfig[key] || fallback;
+  return (window.__tbxConfig ? window.__tbxConfig[key] : undefined) || fallback;
 }

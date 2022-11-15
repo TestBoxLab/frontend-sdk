@@ -1,4 +1,4 @@
 #!/bin/bash
 
 npm run build
-cp lib/index.js static/index.js
+cp lib/cdn.js static/cdn.js

@@ -16,18 +16,33 @@ First, install the package in to your front-end.
 
 This package provides two sets of functionality:
 
-* Communication to TestBox
+* Communication to TestBox for user experience purposes
 * [Client-side Auto-login][1]
 ### Base Usage
 
-If you just need the basics of TestBox for your app, you can just import the SDK:
+If you just need the basics of TestBox for your app, you'll use something like this:
 
 ```javascript
-import from "@testboxlab/browser";
+import { startTestBox } from "@testboxlab/browser";
+
+startTestBox();
 ```
 
 This will allow TestBox to communicate with your web site. This communication is
 important to remove loading states and generally provide a good user experience.
+
+If you use React, your implementation might look like this:
+
+```javascript
+import { startTestBox } from "@testboxlab/browser";
+import { useEffect } from "react";
+
+export default function App() {
+    useEffect(() => {
+        startTestBox();
+    }, []);
+}
+```
 
 ### Auto-login
 

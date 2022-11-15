@@ -17,7 +17,7 @@ export function initializeTestBox(data: InitializeRequestEvent) {
     rewriteLinks();
     startHealthChecks();
 
-    if (data.optInFullStory) {
+    if (data.optInFullStory && getConfigItem("allowFullStory")) {
       addFullStory();
     }
 

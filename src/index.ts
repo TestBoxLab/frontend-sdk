@@ -1,4 +1,4 @@
-import { getTargetOrigin } from "./config";
+import { getTargetOrigin, TestBoxConfig } from "./config";
 import { info } from "./utils/logging";
 import {
   isValidIncomingTestBoxMessage,
@@ -26,4 +26,7 @@ window.addEventListener("message", (ev) => {
   routeMessage(data);
 });
 
-sendMessageToTestBox(INITIALIZE_REQUEST_EVENT);
+export function startTestBox(config?: TestBoxConfig) {
+  window.__tbxConfig = config;
+  sendMessageToTestBox(INITIALIZE_REQUEST_EVENT);
+}

@@ -60,6 +60,25 @@ jobs:
      - name: Check prettier formatting
        run: npm run format:check
 
+  check-types:
+    name: Check TypeScript
+    runs-on: ubuntu-latest
+    needs: [install-dependencies]
+    steps:
+     - name: Checkout repository
+       uses: actions/checkout@v3
+     - name: Set up Node
+       uses: actions/setup-node@v3
+       with:
+         node-version: 16.14.0
+     - name: Restore dependencies
+       uses: actions/cache@v3
+       with:
+         path: node_modules
+         key: ${{ needs.install-dependencies.outputs.cache-key }}
+     - name: Check prettier formatting
+       run: npx tsc
+
   run-cypress:
     name: Run Cypress tests
     runs-on: ubuntu-latest
