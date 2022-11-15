@@ -11,6 +11,8 @@ jobs:
   install-dependencies:
     name: Install Node.js dependencies
     runs-on: ubuntu-latest
+    env:
+      cache-name: cache-node-modules
     steps:
      - name: Checkout repository
        uses: actions/checkout@v3
@@ -24,8 +26,6 @@ jobs:
      - name: Cache Node modules
        id: cache-npm
        uses: actions/cache@v3
-       env:
-        cache-name: cache-node-modules
        with:
         path: node_modules
         key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ steps.hash-key.outputs.hash }}
