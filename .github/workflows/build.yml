@@ -77,7 +77,7 @@ jobs:
      - name: Run Cypress tests
        uses: cypress-io/github-action@v4
        with:
-         build: npm run build
+         build: npm run build && cp lib/index.js static/
          start: npx --yes http-server static/
 
   publish:
