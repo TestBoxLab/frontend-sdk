@@ -9,7 +9,6 @@ on:
 
 permissions:
   contents: write
-  id-token: write
 
 jobs:
   install-dependencies:
@@ -105,3 +104,6 @@ jobs:
          key: ${{ needs.install-dependencies.outputs.cache-key }}
      - name: Run semantic release bot
        run: npx semantic-release
+       env:
+         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+         NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
