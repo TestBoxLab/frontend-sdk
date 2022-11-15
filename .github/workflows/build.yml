@@ -102,6 +102,8 @@ jobs:
        with:
          path: node_modules
          key: ${{ needs.install-dependencies.outputs.cache-key }}
+     - name: Build the package
+       run: npm run build
      - name: Run semantic release bot
        run: npx semantic-release
        env:

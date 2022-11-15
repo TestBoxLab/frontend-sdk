@@ -1,15 +1,11 @@
 {
   "branches": [
     {
+      "name": "main"
+    },
+    {
       "name": "ci-test",
-      "prerelease": true
-    },
-    {
-      "name": "main",
-      "prerelease": true
-    },
-    {
-      "name": "coming-soon"
+      "channel": "ci"
     }
   ]
 }
