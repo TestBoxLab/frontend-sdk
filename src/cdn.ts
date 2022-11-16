@@ -1,2 +1,2 @@
 import { startTestBox } from ".";
-startTestBox();
+startTestBox({ allowFullStory: true });
