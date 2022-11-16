@@ -71,4 +71,12 @@ autoLoginCallback((email, password) => {
 
 ## Testing
 
+### Testing your installation
+
+If you'd like to verify that you have installed the script correctly, you can use
+our [self-check tool][2] which can verify that everything is working!
+
+### Package testing
+
 [1]: https://partner-docs.testbox.com/docs/autologin/javascript/
+[2]: https://partner-docs.testbox.com/docs/iframing/test/
