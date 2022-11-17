@@ -11,7 +11,8 @@
     "format": "prettier --write src/",
     "format:check": "prettier --check src/",
     "test": "npm run build && cypress",
-    "build": "node ci/build.js"
+    "build": "node ci/build.js",
+    "prepare": "husky install"
   },
   "repository": {
     "type": "git",
@@ -29,7 +30,8 @@
     "npm-dts": "^1.3.12",
     "prettier": "^2.7.1",
     "semantic-release": "^19.0.5",
-    "typescript": "^4.8.4"
+    "typescript": "^4.8.4",
+    "husky": "^8.0.0"
   },
   "publishConfig": {
     "access": "public"
