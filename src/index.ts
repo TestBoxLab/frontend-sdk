@@ -7,7 +7,13 @@ import {
 import { routeMessage } from "./router";
 import { INITIALIZE_REQUEST_EVENT } from "./messaging/outgoing";
 
+let tbxStarted = false;
+
 export function startTestBox(config?: TestBoxConfig) {
+  if (tbxStarted) {
+    return;
+  }
+
   window.__tbxConfig = config;
 
   window.addEventListener("message", (ev) => {
@@ -30,4 +36,5 @@ export function startTestBox(config?: TestBoxConfig) {
   });
 
   sendMessageToTestBox(INITIALIZE_REQUEST_EVENT);
+  tbxStarted = true;
 }

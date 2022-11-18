@@ -1,4 +1,4 @@
-<img src="docs/pedals.png" srcSet="docs/pedals@2x.png 2x">
+<img src="docs/pedals.svg" width="125">
 
 # TestBox Browser SDK
 
