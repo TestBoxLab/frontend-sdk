@@ -2,6 +2,7 @@
 
 # TestBox Browser SDK
 
+[![Test, build, publish](https://github.com/TestBoxLab/browser-sdk/actions/workflows/build.yml/badge.svg)](https://github.com/TestBoxLab/browser-sdk/actions/workflows/build.yml)
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
 
 ## Installation
