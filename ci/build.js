@@ -13,6 +13,7 @@ build({
   entryPoints: ["src/cdn.ts"],
   outdir: "static",
   bundle: true,
+  minify: true,
 });
 
 new Generator({
