@@ -5,6 +5,10 @@ export const INITIALIZE_ACK = "initialize-ack";
 export const INITIALIZE_SUCCESS = "initialize-success";
 export const INITIALIZE_FAIL = "initialize-fail";
 
+export const LOGIN_ACK = "login-ack";
+export const LOGIN_SUCCESS = "login-success";
+export const LOGIN_FAIL = "login-fail";
+
 type HealthCheckEvent = {
   url: string;
 };
@@ -22,4 +26,7 @@ export interface TestBoxOutgoingEvents {
   [INITIALIZE_ACK]: undefined;
   [INITIALIZE_SUCCESS]: undefined;
   [INITIALIZE_FAIL]: undefined;
+  [LOGIN_ACK]: undefined;
+  [LOGIN_SUCCESS]: undefined;
+  [LOGIN_FAIL]: undefined;
 }
