@@ -4,10 +4,12 @@ import {
   isValidIncomingTestBoxMessage,
   sendMessageToTestBox,
 } from "./messaging";
-import { routeMessage } from "./router";
+import { routeMessage, TestBoxEventRouter } from "./router";
 import { INITIALIZE_REQUEST_EVENT } from "./messaging/outgoing";
+import { IncomingEventMap } from "./messaging/incoming";
 
 let tbxStarted = false;
+let messageHandlers: TestBoxEventRouter = {};
 
 export function startTestBox(config?: TestBoxConfig) {
   if (tbxStarted) {
@@ -16,8 +18,15 @@ export function startTestBox(config?: TestBoxConfig) {
 
   window.__tbxConfig = config;
 
+  if (window.__tbxConfig.onNavigateRequest) {
+    messageHandlers["navigate-request"] = [window.__tbxConfig.onNavigateRequest];
+  }
+  if (window.__tbxConfig.onLoginRequest) {
+    messageHandlers["login-request"] = [window.__tbxConfig.onLoginRequest];
+  }
+
   window.addEventListener("message", (ev) => {
-    if (ev.origin !== getTargetOrigin()) {
+    if (!ev.origin.includes(".testbox.com")) {
       info("target-mismatch", {
         messageOrigin: ev.origin,
         targetOrigin: getTargetOrigin(),
@@ -32,9 +41,24 @@ export function startTestBox(config?: TestBoxConfig) {
       return;
     }
 
-    routeMessage(data);
+    routeMessage(data, messageHandlers);
   });
 
   sendMessageToTestBox(INITIALIZE_REQUEST_EVENT);
   tbxStarted = true;
+}
+
+export const start = startTestBox;
+
+export function on<K extends keyof IncomingEventMap>(
+  message: K,
+  handler: (message: IncomingEventMap[K]) => void
+) {
+  if (message in messageHandlers) {
+    messageHandlers[message].push(handler);
+  }
+  else {
+    // TODO: TypeScript narrowing does not work here. See if we can fix.
+    messageHandlers[message] = [handler as any];
+  }
 }
