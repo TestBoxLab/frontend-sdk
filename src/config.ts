@@ -1,3 +1,5 @@
+import { LoginRequestEvent } from "./messaging/incoming";
+
 export interface TestBoxConfig {
   allowFullStory?: boolean;
   logLevel?: string;
@@ -5,6 +7,9 @@ export interface TestBoxConfig {
   linkTargetLoopInterval?: number;
   healthCheckInterval?: number;
   window?: Window;
+
+  onNavigateRequest?: (url: string) => void;
+  onLoginRequest?: (props: LoginRequestEvent) => void;
 }
 
 declare global {

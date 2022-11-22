@@ -1,5 +1,5 @@
-import { getConfigItem, getTargetOrigin } from "../config";
-import { UnionedIncomingEvents, VALID_INCOMING_EVENTS } from "./incoming";
+import { getConfigItem } from "../config";
+import { UnionedIncomingMessages, VALID_INCOMING_EVENTS } from "./incoming";
 import { TestBoxOutgoingEvents } from "./outgoing";
 import { MessageSender, TestBoxMessage } from "./types";
 
@@ -8,7 +8,7 @@ export function sendMessageToTestBox<K extends keyof TestBoxOutgoingEvents>(
   data?: TestBoxOutgoingEvents[K]
 ) {
   const targetWindow = getConfigItem("window", window.parent);
-  targetWindow.postMessage(makeTestBoxEvent(event, data), getTargetOrigin());
+  targetWindow.postMessage(makeTestBoxEvent(event, data), "*");
 }
 
 export function makeTestBoxEvent<K extends keyof TestBoxOutgoingEvents>(
@@ -25,7 +25,7 @@ export function makeTestBoxEvent<K extends keyof TestBoxOutgoingEvents>(
   };
 }
 
-export function isValidIncomingTestBoxMessage<T extends UnionedIncomingEvents>(
+export function isValidIncomingTestBoxMessage<T extends UnionedIncomingMessages>(
   obj: unknown,
   dataGuard?: (x: unknown) => x is T["testbox"]["data"]
 ): obj is T {
