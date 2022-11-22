@@ -19,7 +19,7 @@ declare global {
 }
 
 export function getTargetOrigin() {
-  return window.__tbxConfig?.targetOrigin || "https://app.testbox.com";
+  return window.__tbxConfig?.targetOrigin || ".testbox.com";
 }
 
 export function getLogLevel() {

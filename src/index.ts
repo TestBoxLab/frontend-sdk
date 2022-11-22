@@ -28,10 +28,11 @@ export function startTestBox(config?: TestBoxConfig) {
   }
 
   window.addEventListener("message", (ev) => {
-    if (!ev.origin.includes(".testbox.com")) {
+    const targetOrigin = getTargetOrigin();
+    if (!ev.origin.includes(targetOrigin)) {
       info("target-mismatch", {
         messageOrigin: ev.origin,
-        targetOrigin: getTargetOrigin(),
+        targetOrigin: targetOrigin,
       });
       return;
     }
