@@ -1,4 +1,4 @@
-import { LoginRequestEvent } from "./messaging/incoming";
+import { LoginRequestEvent, NavigateRequestEvent } from "./messaging/incoming";
 
 export interface TestBoxConfig {
   allowFullStory?: boolean;
@@ -8,7 +8,7 @@ export interface TestBoxConfig {
   healthCheckInterval?: number;
   window?: Window;
 
-  onNavigateRequest?: (url: string) => void;
+  onNavigateRequest?: (url: NavigateRequestEvent) => void;
   onLoginRequest?: (props: LoginRequestEvent) => void;
 }
 

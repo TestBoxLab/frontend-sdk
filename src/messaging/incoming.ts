@@ -51,6 +51,6 @@ export type UnionedIncomingMessages =
 
 export type IncomingEventMap = {
   [INITIALIZE]: InitializeRequestEvent;
-  [NAVIGATE_REQUEST_EVENT]: string;
+  [NAVIGATE_REQUEST_EVENT]: NavigateRequestEvent;
   [LOGIN_REQUEST]: LoginRequestEvent;
 };

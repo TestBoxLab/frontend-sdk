@@ -30,7 +30,7 @@ export function routeMessage(
       initializeTestBox(testbox.data);
       break;
     case NAVIGATE_REQUEST_EVENT:
-      window.location.href = testbox.data;
+      window.location.href = testbox.data.url;
       break;
     default:
       warn("no-route");
