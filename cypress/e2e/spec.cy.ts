@@ -13,6 +13,6 @@ describe('testbox script', () => {
         event: "initialize-request",
         data: undefined,
       }
-    }, "https://app.testbox.com");
+    }, "*");
   })
 });
