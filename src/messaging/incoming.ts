@@ -26,7 +26,7 @@ export type InitializeRequestMessage = TestBoxMessage<
 
 export type NavigateRequestEvent = {
   url: string;
-}
+};
 
 export type NavigateRequestMessage = TestBoxMessage<
   typeof NAVIGATE_REQUEST_EVENT,
