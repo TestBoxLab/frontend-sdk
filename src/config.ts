@@ -4,6 +4,7 @@ export interface TestBoxConfig {
   targetOrigin?: string;
   linkTargetLoopInterval?: number;
   healthCheckInterval?: number;
+  window?: Window;
 }
 
 declare global {

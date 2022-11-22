@@ -1,2 +1,2 @@
 import { startTestBox } from ".";
-startTestBox({ allowFullStory: true });
+startTestBox(window.__tbxConfig || { allowFullStory: true });
