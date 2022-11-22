@@ -19,7 +19,9 @@ export function startTestBox(config?: TestBoxConfig) {
   window.__tbxConfig = config;
 
   if (window.__tbxConfig.onNavigateRequest) {
-    messageHandlers["navigate-request"] = [window.__tbxConfig.onNavigateRequest];
+    messageHandlers["navigate-request"] = [
+      window.__tbxConfig.onNavigateRequest,
+    ];
   }
   if (window.__tbxConfig.onLoginRequest) {
     messageHandlers["login-request"] = [window.__tbxConfig.onLoginRequest];
@@ -56,8 +58,7 @@ export function on<K extends keyof IncomingEventMap>(
 ) {
   if (message in messageHandlers) {
     messageHandlers[message].push(handler);
-  }
-  else {
+  } else {
     // TODO: TypeScript narrowing does not work here. See if we can fix.
     messageHandlers[message] = [handler as any];
   }

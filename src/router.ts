@@ -13,7 +13,10 @@ export type TestBoxEventRouter = {
 
 // Note to future selves: you cannot destructure testbox here, the
 // type narrowing does not work correctly if you do so here.
-export function routeMessage({ testbox }: UnionedIncomingMessages, router: TestBoxEventRouter) {
+export function routeMessage(
+  { testbox }: UnionedIncomingMessages,
+  router: TestBoxEventRouter
+) {
   const { event, data } = testbox;
   const funcs = router[event];
   if (funcs) {

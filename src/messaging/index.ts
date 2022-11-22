@@ -25,7 +25,9 @@ export function makeTestBoxEvent<K extends keyof TestBoxOutgoingEvents>(
   };
 }
 
-export function isValidIncomingTestBoxMessage<T extends UnionedIncomingMessages>(
+export function isValidIncomingTestBoxMessage<
+  T extends UnionedIncomingMessages
+>(
   obj: unknown,
   dataGuard?: (x: unknown) => x is T["testbox"]["data"]
 ): obj is T {

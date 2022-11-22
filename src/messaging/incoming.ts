@@ -5,7 +5,11 @@ export const NAVIGATE_REQUEST_EVENT = "navigate-request";
 export const INITIALIZE = "initialize";
 export const LOGIN_REQUEST = "login-request";
 
-export const VALID_INCOMING_EVENTS = [NAVIGATE_REQUEST_EVENT, INITIALIZE, LOGIN_REQUEST];
+export const VALID_INCOMING_EVENTS = [
+  NAVIGATE_REQUEST_EVENT,
+  INITIALIZE,
+  LOGIN_REQUEST,
+];
 
 // FYI, incoming events are typed slightly differently than outgoing
 // events due to a this issue in TypeScript:
@@ -29,9 +33,12 @@ export type LoginRequestEvent = {
   username?: string;
   password?: string;
   totpCode?: string;
-}
+};
 
-export type LoginRequestMessage = TestBoxMessage<typeof LOGIN_REQUEST, LoginRequestEvent>;
+export type LoginRequestMessage = TestBoxMessage<
+  typeof LOGIN_REQUEST,
+  LoginRequestEvent
+>;
 
 export type UnionedIncomingMessages =
   | InitializeRequestMessage
