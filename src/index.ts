@@ -6,7 +6,7 @@ import {
 } from "./messaging";
 import { routeMessage, TestBoxEventRouter } from "./router";
 import { INITIALIZE_REQUEST } from "./messaging/outgoing";
-import { IncomingEventMap } from "./messaging/incoming";
+import { IncomingEventHandlers, IncomingEventMap } from "./messaging/incoming";
 
 let tbxStarted = false;
 let messageHandlers: TestBoxEventRouter = {};
@@ -58,9 +58,9 @@ export function startTestBox(config?: TestBoxConfig) {
 
 export const start = startTestBox;
 
-export function on<K extends keyof IncomingEventMap>(
+export function on<K extends keyof IncomingEventHandlers>(
   message: K,
-  handler: (message: IncomingEventMap[K]) => void
+  handler: IncomingEventHandlers[K]
 ) {
   if (message in messageHandlers) {
     messageHandlers[message].push(handler);

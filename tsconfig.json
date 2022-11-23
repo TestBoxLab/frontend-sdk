@@ -1,6 +1,6 @@
 {
     "compilerOptions": {
-        "lib": ["es2017", "dom"],
+        "lib": ["es2015", "es2021", "dom"],
         "target": "es2015",
         "outDir": "./lib",
         "module": "es2015",
