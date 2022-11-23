@@ -1,14 +1,14 @@
 import { TestBoxMessage } from ".";
 import { MessageSender } from "./types";
 
-export const NAVIGATE_REQUEST_EVENT = "navigate-request";
+export const NAVIGATE = "navigate";
 export const INITIALIZE = "initialize";
-export const LOGIN_REQUEST = "login-request";
+export const LOGIN = "login";
 
 export const VALID_INCOMING_EVENTS = [
-  NAVIGATE_REQUEST_EVENT,
+  NAVIGATE,
   INITIALIZE,
-  LOGIN_REQUEST,
+  LOGIN,
 ];
 
 // FYI, incoming events are typed slightly differently than outgoing
@@ -29,7 +29,7 @@ export type NavigateRequestEvent = {
 };
 
 export type NavigateRequestMessage = TestBoxMessage<
-  typeof NAVIGATE_REQUEST_EVENT,
+  typeof NAVIGATE,
   NavigateRequestEvent
 >;
 
@@ -40,7 +40,7 @@ export type LoginRequestEvent = {
 };
 
 export type LoginRequestMessage = TestBoxMessage<
-  typeof LOGIN_REQUEST,
+  typeof LOGIN,
   LoginRequestEvent
 >;
 
@@ -51,6 +51,6 @@ export type UnionedIncomingMessages =
 
 export type IncomingEventMap = {
   [INITIALIZE]: InitializeRequestEvent;
-  [NAVIGATE_REQUEST_EVENT]: NavigateRequestEvent;
-  [LOGIN_REQUEST]: LoginRequestEvent;
+  [NAVIGATE]: NavigateRequestEvent;
+  [LOGIN]: LoginRequestEvent;
 };

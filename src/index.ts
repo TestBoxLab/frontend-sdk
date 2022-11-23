@@ -5,7 +5,7 @@ import {
   sendMessageToTestBox,
 } from "./messaging";
 import { routeMessage, TestBoxEventRouter } from "./router";
-import { INITIALIZE_REQUEST_EVENT } from "./messaging/outgoing";
+import { INITIALIZE_REQUEST } from "./messaging/outgoing";
 import { IncomingEventMap } from "./messaging/incoming";
 
 let tbxStarted = false;
@@ -47,7 +47,7 @@ export function startTestBox(config?: TestBoxConfig) {
     routeMessage(data, messageHandlers);
   });
 
-  sendMessageToTestBox(INITIALIZE_REQUEST_EVENT);
+  sendMessageToTestBox(INITIALIZE_REQUEST);
   tbxStarted = true;
 }
 

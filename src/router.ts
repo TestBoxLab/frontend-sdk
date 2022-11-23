@@ -2,8 +2,8 @@ import { initializeTestBox } from "./initialize";
 import {
   IncomingEventMap,
   INITIALIZE,
-  LOGIN_REQUEST,
-  NAVIGATE_REQUEST_EVENT,
+  LOGIN,
+  NAVIGATE,
   UnionedIncomingMessages,
   VALID_INCOMING_EVENTS,
 } from "./messaging/incoming";
@@ -26,10 +26,10 @@ export function routeMessage(
       case INITIALIZE:
         initializeTestBox(data);
         break;
-      case NAVIGATE_REQUEST_EVENT:
+      case NAVIGATE:
         window.location.href = data.url;
         break;
-      case LOGIN_REQUEST:
+      case LOGIN:
         autoLogin(data, router).then((nextUrl) => {
           if (nextUrl && nextUrl !== window.location.href) {
             window.location.href = nextUrl;

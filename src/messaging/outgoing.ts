@@ -1,6 +1,8 @@
-export const INITIALIZE_REQUEST_EVENT = "initialize-request";
 export const HEALTH_CHECK = "health-check";
 export const CLICK = "click";
+
+export const INITIALIZE_REQUEST = "initialize-request";
+
 export const INITIALIZE_ACK = "initialize-ack";
 export const INITIALIZE_SUCCESS = "initialize-success";
 export const INITIALIZE_FAIL = "initialize-fail";
@@ -20,7 +22,7 @@ type ClickEvent = {
 };
 
 export interface TestBoxOutgoingEvents {
-  [INITIALIZE_REQUEST_EVENT]: undefined;
+  [INITIALIZE_REQUEST]: undefined;
   [HEALTH_CHECK]: HealthCheckEvent;
   [CLICK]: ClickEvent;
   [INITIALIZE_ACK]: undefined;
