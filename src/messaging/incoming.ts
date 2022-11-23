@@ -44,3 +44,9 @@ export type IncomingEventMap = {
   [NAVIGATE]: NavigateEvent;
   [LOGIN]: LoginEvent;
 };
+
+export type IncomingEventHandlers = {
+  [INITIALIZE]: (data: InitializeEvent) => void;
+  [NAVIGATE]: (data: NavigateEvent) => void;
+  [LOGIN]: (data: LoginEvent) => Promise<string | boolean>;
+};

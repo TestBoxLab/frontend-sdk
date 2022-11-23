@@ -1,6 +1,6 @@
 import { initializeTestBox } from "./initialize";
 import {
-  IncomingEventMap,
+  IncomingEventHandlers,
   INITIALIZE,
   LOGIN,
   NAVIGATE,
@@ -13,19 +13,26 @@ import { sendMessageToTestBox } from "./messaging";
 import { INITIALIZE_ACK, LOGIN_ACK, NAVIGATE_ACK } from "./messaging/outgoing";
 
 export type TestBoxEventRouter = {
-  [K in keyof IncomingEventMap]?: ((data: IncomingEventMap[K]) => void)[];
+  [K in keyof IncomingEventHandlers]?: IncomingEventHandlers[K][];
 };
 
-// Note to future selves: you cannot destructure testbox here, the
-// type narrowing does not work correctly if you do so here.
 let loggingIn = false;
 let navigateUrl = "";
 
+// Note to future selves: you cannot destructure testbox here, the
+// type narrowing does not work correctly if you do so here.
 export function routeMessage(
   { testbox }: UnionedIncomingMessages,
   router: TestBoxEventRouter
 ) {
   const { event, data } = testbox;
+  const funcs = router[event];
+  if (funcs) {
+    info("custom-routing");
+    // TODO: TypeScript type narrowing does not work here. See if we can find a workaround.
+    funcs.forEach((func: any) => func(data));
+    return;
+  }
   if (VALID_INCOMING_EVENTS.includes(event)) {
     switch (event) {
       case INITIALIZE:
@@ -44,7 +51,7 @@ export function routeMessage(
       case LOGIN:
         loggingIn = true;
         sendMessageToTestBox(LOGIN_ACK);
-        autoLogin(data, router).then((nextUrl) => {
+        autoLogin(data, router).then((nextUrl: string) => {
           loggingIn = false;
           const goTo = navigateUrl || nextUrl;
           if (goTo && goTo !== window.location.href) {
@@ -55,14 +62,6 @@ export function routeMessage(
         break;
       default:
         warn("no-route");
-    }
-  } else {
-    const funcs = router[event];
-    if (funcs) {
-      info("custom-routing");
-      // TODO: TypeScript type narrowing does not work here. See if we can find a workaround.
-      funcs.forEach((func: any) => func(data));
-      return;
     }
   }
 }
