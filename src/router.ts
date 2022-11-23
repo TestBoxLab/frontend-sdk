@@ -27,7 +27,7 @@ export function routeMessage(
         initializeTestBox(data);
         break;
       case NAVIGATE_REQUEST_EVENT:
-        window.location.href = data;
+        window.location.href = data.url;
         break;
       case LOGIN_REQUEST:
         autoLogin(data, router).then((nextUrl) => {

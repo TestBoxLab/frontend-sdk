@@ -1,7 +1,13 @@
 {
     "compilerOptions": {
-        "emitDeclarationOnly": true,
+        "lib": ["es2017", "dom"],
+        "target": "es2015",
+        "outDir": "./lib",
+        "module": "es2015",
+        "moduleResolution": "node",
         "declaration": true
     },
-    "exclude": ["lib"]
+    "include": [
+        "./src"
+    ]
 }

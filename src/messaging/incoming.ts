@@ -24,9 +24,13 @@ export type InitializeRequestMessage = TestBoxMessage<
   InitializeRequestEvent
 >;
 
+export type NavigateRequestEvent = {
+  url: string;
+};
+
 export type NavigateRequestMessage = TestBoxMessage<
   typeof NAVIGATE_REQUEST_EVENT,
-  string
+  NavigateRequestEvent
 >;
 
 export type LoginRequestEvent = {
@@ -47,6 +51,6 @@ export type UnionedIncomingMessages =
 
 export type IncomingEventMap = {
   [INITIALIZE]: InitializeRequestEvent;
-  [NAVIGATE_REQUEST_EVENT]: string;
+  [NAVIGATE_REQUEST_EVENT]: NavigateRequestEvent;
   [LOGIN_REQUEST]: LoginRequestEvent;
 };

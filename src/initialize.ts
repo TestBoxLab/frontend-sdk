@@ -89,7 +89,7 @@ function startHealthChecks() {
 
   const healthLoop = () => {
     healthCheck();
-    setTimeout(() => healthCheck(), getConfigItem("healthCheckInterval", 1000));
+    setTimeout(() => healthLoop(), getConfigItem("healthCheckInterval", 1000));
   };
 
   healthLoop();

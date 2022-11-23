@@ -64,3 +64,5 @@ export function on<K extends keyof IncomingEventMap>(
     messageHandlers[message] = [handler as any];
   }
 }
+
+export { TestBoxConfig };
