@@ -5,11 +5,7 @@ export const NAVIGATE = "navigate";
 export const INITIALIZE = "initialize";
 export const LOGIN = "login";
 
-export const VALID_INCOMING_EVENTS = [
-  NAVIGATE,
-  INITIALIZE,
-  LOGIN,
-];
+export const VALID_INCOMING_EVENTS = [NAVIGATE, INITIALIZE, LOGIN];
 
 // FYI, incoming events are typed slightly differently than outgoing
 // events due to a this issue in TypeScript:
