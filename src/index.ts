@@ -18,13 +18,18 @@ export function startTestBox(config?: TestBoxConfig) {
 
   window.__tbxConfig = config;
 
-  if (window.__tbxConfig.onNavigateRequest) {
-    messageHandlers["navigate-request"] = [
-      window.__tbxConfig.onNavigateRequest,
+  if (window.__tbxConfig.onNavigate) {
+    messageHandlers["navigate"] = [window.__tbxConfig.onNavigate];
+  } else {
+    messageHandlers["navigate"] = [
+      (data) => {
+        window.location.href = data.url;
+      },
     ];
   }
-  if (window.__tbxConfig.onLoginRequest) {
-    messageHandlers["login-request"] = [window.__tbxConfig.onLoginRequest];
+
+  if (window.__tbxConfig.onLogin) {
+    messageHandlers["login"] = [window.__tbxConfig.onLogin];
   }
 
   window.addEventListener("message", (ev) => {

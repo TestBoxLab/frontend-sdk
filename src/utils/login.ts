@@ -1,13 +1,10 @@
 import { sendMessageToTestBox } from "../messaging";
-import { LOGIN_ACK, LOGIN_FAIL, LOGIN_SUCCESS } from "../messaging/outgoing";
+import { LOGIN_FAIL, LOGIN_SUCCESS } from "../messaging/outgoing";
 
-export let loggingIn = false;
 export async function autoLogin(data, router) {
-  loggingIn = true;
-  sendMessageToTestBox(LOGIN_ACK);
   let nextUrl;
   try {
-    const funcs = router["login-request"];
+    const funcs = router["login"];
     if (!funcs) {
       console.log("No login callback exists!");
       sendMessageToTestBox(LOGIN_FAIL);
@@ -18,7 +15,6 @@ export async function autoLogin(data, router) {
     console.log(e);
     nextUrl = false;
   }
-  loggingIn = false;
 
   if (nextUrl === false) {
     sendMessageToTestBox(LOGIN_FAIL);

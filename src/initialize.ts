@@ -7,10 +7,10 @@ import {
   INITIALIZE_FAIL,
   INITIALIZE_SUCCESS,
 } from "./messaging/outgoing";
-import { InitializeRequestEvent } from "./messaging/incoming";
+import { InitializeEvent } from "./messaging/incoming";
 import { getConfigItem } from "./config";
 
-export function initializeTestBox(data: InitializeRequestEvent) {
+export function initializeTestBox(data: InitializeEvent) {
   try {
     sendMessageToTestBox(INITIALIZE_ACK);
     initializeCookies();
