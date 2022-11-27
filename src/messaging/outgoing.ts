@@ -11,6 +11,8 @@ export const LOGIN_ACK = "login-ack";
 export const LOGIN_SUCCESS = "login-success";
 export const LOGIN_FAIL = "login-fail";
 
+export const NAVIGATE_ACK = "navigate-ack";
+
 type HealthCheckEvent = {
   url: string;
 };
@@ -31,4 +33,5 @@ export interface TestBoxOutgoingEvents {
   [LOGIN_ACK]: undefined;
   [LOGIN_SUCCESS]: undefined;
   [LOGIN_FAIL]: undefined;
+  [NAVIGATE_ACK]: undefined;
 }

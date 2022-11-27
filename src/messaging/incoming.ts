@@ -11,42 +11,36 @@ export const VALID_INCOMING_EVENTS = [NAVIGATE, INITIALIZE, LOGIN];
 // events due to a this issue in TypeScript:
 // https://github.com/microsoft/TypeScript/issues/33014
 
-export type InitializeRequestEvent = {
+export type InitializeEvent = {
   optInFullStory: boolean;
 };
 
-export type InitializeRequestMessage = TestBoxMessage<
+export type InitializeMessage = TestBoxMessage<
   typeof INITIALIZE,
-  InitializeRequestEvent
+  InitializeEvent
 >;
 
-export type NavigateRequestEvent = {
+export type NavigateEvent = {
   url: string;
 };
 
-export type NavigateRequestMessage = TestBoxMessage<
-  typeof NAVIGATE,
-  NavigateRequestEvent
->;
+export type NavigateMessage = TestBoxMessage<typeof NAVIGATE, NavigateEvent>;
 
-export type LoginRequestEvent = {
+export type LoginEvent = {
   username?: string;
   password?: string;
   totpCode?: string;
 };
 
-export type LoginRequestMessage = TestBoxMessage<
-  typeof LOGIN,
-  LoginRequestEvent
->;
+export type LoginMessage = TestBoxMessage<typeof LOGIN, LoginEvent>;
 
 export type UnionedIncomingMessages =
-  | InitializeRequestMessage
-  | NavigateRequestMessage
-  | LoginRequestMessage;
+  | InitializeMessage
+  | NavigateMessage
+  | LoginMessage;
 
 export type IncomingEventMap = {
-  [INITIALIZE]: InitializeRequestEvent;
-  [NAVIGATE]: NavigateRequestEvent;
-  [LOGIN]: LoginRequestEvent;
+  [INITIALIZE]: InitializeEvent;
+  [NAVIGATE]: NavigateEvent;
+  [LOGIN]: LoginEvent;
 };
