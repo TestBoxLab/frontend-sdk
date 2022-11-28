@@ -27,13 +27,6 @@ export function routeMessage(
 ) {
   const { event, data } = testbox;
   if (VALID_INCOMING_EVENTS.includes(event)) {
-    const funcs = router[event];
-    if (funcs) {
-      info("custom-routing");
-      // TODO: TypeScript type narrowing does not work here. See if we can find a workaround.
-      funcs.forEach((func: any) => func(data));
-      return;
-    }
     switch (event) {
       case INITIALIZE:
         sendMessageToTestBox(INITIALIZE_ACK);
