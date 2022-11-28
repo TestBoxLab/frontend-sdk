@@ -1,21 +1,23 @@
 import { sendMessageToTestBox } from "../messaging";
 import { LOGIN_FAIL, LOGIN_SUCCESS } from "../messaging/outgoing";
-import { TestBoxEventRouter } from "../router";
-import { LoginEvent } from "../messaging/incoming";
+import { IncomingEventHandlers, LoginEvent } from "../messaging/incoming";
 
 export let loggingIn = false;
 
-export async function autoLogin(data: LoginEvent, router: TestBoxEventRouter) {
+export async function autoLogin(
+  data: LoginEvent,
+  router: Partial<IncomingEventHandlers>
+) {
   let nextUrl: string | boolean;
   loggingIn = true;
   try {
-    const funcs = router["login"];
-    if (!funcs) {
+    const func = router["login"];
+    if (!func) {
       console.log("No login callback exists!");
       sendMessageToTestBox(LOGIN_FAIL);
       return;
     }
-    nextUrl = await Promise.any(funcs.map((func) => func(data)));
+    nextUrl = await func(data);
   } catch (e) {
     console.log(e);
     nextUrl = false;
