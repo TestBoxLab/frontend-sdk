@@ -5,10 +5,7 @@ import { LoginEvent } from "../messaging/incoming";
 
 export let loggingIn = false;
 
-export async function autoLogin(
-  data: LoginEvent,
-  router: TestBoxEventRouter
-) {
+export async function autoLogin(data: LoginEvent, router: TestBoxEventRouter) {
   let nextUrl: string | boolean;
   loggingIn = true;
   try {
