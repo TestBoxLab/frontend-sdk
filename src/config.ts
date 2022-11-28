@@ -8,8 +8,8 @@ export interface TestBoxConfig {
   healthCheckInterval?: number;
   window?: Window;
 
-  onNavigate?: (url: NavigateEvent) => Promise<void>;
-  onLogin?: (props: LoginEvent) => Promise<string | boolean>;
+  navigateHandler?: (url: NavigateEvent) => Promise<void>;
+  loginHandler?: (props: LoginEvent) => Promise<string | boolean>;
 }
 
 declare global {

@@ -4,12 +4,16 @@ import {
   isValidIncomingTestBoxMessage,
   sendMessageToTestBox,
 } from "./messaging";
-import { routeMessage, TestBoxEventRouter } from "./router";
+import { routeMessage } from "./router";
 import { INITIALIZE_REQUEST } from "./messaging/outgoing";
-import { IncomingEventHandlers, IncomingEventMap } from "./messaging/incoming";
+import { LoginEvent, NavigateEvent } from "./messaging/incoming";
 
 let tbxStarted = false;
-let messageHandlers: TestBoxEventRouter = {};
+
+export let navigateHandler: (data: NavigateEvent) => void;
+export let loginHandler: (
+  data: LoginEvent
+) => Promise<string | boolean> = async () => false;
 
 export function startTestBox(config?: TestBoxConfig) {
   if (tbxStarted) {
@@ -18,18 +22,16 @@ export function startTestBox(config?: TestBoxConfig) {
 
   window.__tbxConfig = config;
 
-  if (window.__tbxConfig.onNavigate) {
-    messageHandlers["navigate"] = [window.__tbxConfig.onNavigate];
+  if (window.__tbxConfig.navigateHandler) {
+    navigateHandler = window.__tbxConfig.navigateHandler;
   } else {
-    messageHandlers["navigate"] = [
-      (data) => {
-        window.location.href = data.url;
-      },
-    ];
+    navigateHandler = (data) => {
+      window.location.href = data.url;
+    };
   }
 
-  if (window.__tbxConfig.onLogin) {
-    messageHandlers["login"] = [window.__tbxConfig.onLogin];
+  if (window.__tbxConfig.loginHandler) {
+    loginHandler = window.__tbxConfig.loginHandler;
   }
 
   window.addEventListener("message", (ev) => {
@@ -49,7 +51,10 @@ export function startTestBox(config?: TestBoxConfig) {
       return;
     }
 
-    routeMessage(data, messageHandlers);
+    routeMessage(data, {
+      navigate: navigateHandler,
+      login: loginHandler,
+    });
   });
 
   sendMessageToTestBox(INITIALIZE_REQUEST);
@@ -57,17 +62,5 @@ export function startTestBox(config?: TestBoxConfig) {
 }
 
 export const start = startTestBox;
-
-export function on<K extends keyof IncomingEventHandlers>(
-  message: K,
-  handler: IncomingEventHandlers[K]
-) {
-  if (message in messageHandlers) {
-    messageHandlers[message].push(handler);
-  } else {
-    // TODO: TypeScript narrowing does not work here. See if we can fix.
-    messageHandlers[message] = [handler as any];
-  }
-}
 
 export { TestBoxConfig };

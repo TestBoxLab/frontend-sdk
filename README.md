@@ -20,6 +20,7 @@ This package provides two sets of functionality:
 
 * Communication to TestBox for user experience purposes
 * [Client-side Auto-login][1]
+
 ### Base Usage
 
 If you just need the basics of TestBox for your app, you'll use something like this:
@@ -50,6 +51,31 @@ export default function App() {
         startTestBox();
     }, []);
 }
+```
+
+### Navigation
+
+If you use react-router, or any kind of client-side routing, you may want to override
+our standard navigation behavior. Navigation happens when a user chooses a use case
+they want to try out. By default, TestBox will use `window.location` to push the iFrame
+to a new URL. You might want to do something more sophisticated.
+
+There are two ways to interact with the browser SDK for events:
+
+```javascript
+// Option 1: you can use the config object
+startTestBox({
+    navigateHandler: (url) => {
+        history.push(url);
+    }
+});
+
+// Option 2: you can set the handler directly
+import testbox from "@testboxlab/browser-sdk";
+
+testbox.navigateHandler = (url) => {
+    history.push(url);
+};
 ```
 
 ### Auto-login

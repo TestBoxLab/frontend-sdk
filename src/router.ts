@@ -12,10 +12,6 @@ import { autoLogin } from "./utils/login";
 import { sendMessageToTestBox } from "./messaging";
 import { INITIALIZE_ACK, LOGIN_ACK, NAVIGATE_ACK } from "./messaging/outgoing";
 
-export type TestBoxEventRouter = {
-  [K in keyof IncomingEventHandlers]?: IncomingEventHandlers[K][];
-};
-
 let loggingIn = false;
 let navigateUrl = "";
 
@@ -23,7 +19,7 @@ let navigateUrl = "";
 // type narrowing does not work correctly if you do so here.
 export function routeMessage(
   { testbox }: UnionedIncomingMessages,
-  router: TestBoxEventRouter
+  router: Partial<IncomingEventHandlers>
 ) {
   const { event, data } = testbox;
   if (VALID_INCOMING_EVENTS.includes(event)) {
@@ -37,8 +33,10 @@ export function routeMessage(
         if (loggingIn) {
           navigateUrl = data.url;
         } else {
-          const navigateFunc = router["navigate"][0];
-          navigateFunc(data);
+          const func = router["navigate"];
+          if (func) {
+            func(data);
+          }
         }
         break;
       case LOGIN:
@@ -48,8 +46,10 @@ export function routeMessage(
           loggingIn = false;
           const goTo = navigateUrl || nextUrl;
           if (goTo && goTo !== window.location.href) {
-            const navigateFunc = router["navigate"][0];
-            navigateFunc({ url: goTo });
+            const func = router["navigate"];
+            if (func) {
+              func({ url: goTo });
+            }
           }
         });
         break;
