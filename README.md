@@ -86,9 +86,9 @@ more work to do.
 On your login page/component, you will want to add some code similar to the following:
 
 ```javascript
-import { autoLoginCallback } from "@testboxlab/browser";
+import testbox from "@testboxlab/browser";
 
-autoLoginCallback((email, password) => {
+testbox.loginHandler = ((email, password) => {
     // Use the email and password to log in, either by filling out
     // your "login" form and submitting, or some other mechanism.
 
@@ -105,6 +105,9 @@ If you'd like to verify that you have installed the script correctly, you can us
 our [self-check tool][2] which can verify that everything is working!
 
 ### Package testing
+
+If you want to test this package, simply run `npm run test`. It will run the Cypress
+tests locally.
 
 [1]: https://partner-docs.testbox.com/docs/autologin/javascript/
 [2]: https://partner-docs.testbox.com/docs/iframing/test/
