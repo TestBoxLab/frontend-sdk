@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { info } from "../utils/logging";
 
 export function addFullStory() {
