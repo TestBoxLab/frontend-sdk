@@ -42,10 +42,14 @@ export function routeMessage(
       case LOGIN:
         loggingIn = true;
         sendMessageToTestBox(LOGIN_ACK);
-        autoLogin(data, router).then((nextUrl: string) => {
+        autoLogin(data, router).then((nextUrl?: string | boolean) => {
           loggingIn = false;
           const goTo = navigateUrl || nextUrl;
-          if (goTo && goTo !== window.location.href) {
+          if (
+            typeof goTo === "string" &&
+            goTo &&
+            goTo !== window.location.href
+          ) {
             const func = router["navigate"];
             if (func) {
               func({ url: goTo });

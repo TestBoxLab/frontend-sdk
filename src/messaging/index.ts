@@ -8,7 +8,7 @@ export function sendMessageToTestBox<K extends keyof TestBoxOutgoingEvents>(
   data?: TestBoxOutgoingEvents[K]
 ) {
   const targetWindow = getConfigItem("window", window.parent);
-  targetWindow.postMessage(makeTestBoxEvent(event, data), "*");
+  targetWindow?.postMessage(makeTestBoxEvent(event, data), "*");
 }
 
 export function makeTestBoxEvent<K extends keyof TestBoxOutgoingEvents>(
@@ -20,7 +20,7 @@ export function makeTestBoxEvent<K extends keyof TestBoxOutgoingEvents>(
       version: 1,
       sender: MessageSender.PARTNER,
       event,
-      data,
+      data: data || ({} as TestBoxOutgoingEvents[K]),
     },
   };
 }
@@ -31,12 +31,7 @@ export function isValidIncomingTestBoxMessage<
   obj: unknown,
   dataGuard?: (x: unknown) => x is T["testbox"]["data"]
 ): obj is T {
-  if (
-    typeof obj === "object" &&
-    obj !== null &&
-    "testbox" in obj &&
-    typeof obj["testbox"] === "object"
-  ) {
+  try {
     const { testbox: message } = obj as TestBoxMessage<
       T["testbox"]["event"],
       T["testbox"]["data"]
@@ -53,7 +48,7 @@ export function isValidIncomingTestBoxMessage<
       }
       return true;
     }
-  }
+  } catch (e) {}
   return false;
 }
 

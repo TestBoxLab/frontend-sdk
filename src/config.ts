@@ -19,11 +19,30 @@ declare global {
 }
 
 export function getTargetOrigin() {
-  return window.__tbxConfig?.targetOrigin || ".testbox.com";
+  return getConfigItem("targetOrigin") || ".testbox.com";
 }
 
 export function getLogLevel() {
-  return window.__tbxConfig.logLevel || "none";
+  return getConfigItem("logLevel") || "none";
+}
+
+export function setConfig<K extends keyof TestBoxConfig>(
+  config?: TestBoxConfig
+) {
+  window.__tbxConfig = config || {};
+  return window.__tbxConfig;
+}
+
+export function setConfigItem<K extends keyof TestBoxConfig>(
+  key: K,
+  value: TestBoxConfig[K]
+) {
+  if (!window.__tbxConfig) {
+    console.error("TestBox configuration undefined!");
+    return;
+  }
+
+  window.__tbxConfig[key] = value;
 }
 
 export function getConfigItem<K extends keyof TestBoxConfig>(
