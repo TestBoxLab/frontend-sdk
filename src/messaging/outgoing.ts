@@ -2,7 +2,7 @@ export const HEALTH_CHECK = "health-check";
 export const CLICK = "click";
 
 export const INITIALIZE_REQUEST = "initialize-request";
-export const START_OVER_REQUEST = "start-over-request";
+export const RESET_IFRAME_REQUEST = "reset-iframe-request";
 
 export const INITIALIZE_ACK = "initialize-ack";
 export const INITIALIZE_SUCCESS = "initialize-success";
@@ -27,7 +27,7 @@ type ClickEvent = {
 
 export interface TestBoxOutgoingEvents {
   [INITIALIZE_REQUEST]: undefined;
-  [START_OVER_REQUEST]: undefined;
+  [RESET_IFRAME_REQUEST]: undefined;
   [HEALTH_CHECK]: HealthCheckEvent;
   [CLICK]: ClickEvent;
   [INITIALIZE_ACK]: undefined;
