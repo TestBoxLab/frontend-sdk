@@ -50,5 +50,5 @@ export function getConfigItem<K extends keyof TestBoxConfig>(
   key: K,
   fallback?: TestBoxConfig[K]
 ): TestBoxConfig[K] {
-  return (window.__tbxConfig ? window.__tbxConfig[key] : undefined) || fallback;
+  return window.__tbxConfig?.[key] || fallback;
 }

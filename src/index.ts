@@ -47,7 +47,7 @@ export function startTestBox(config?: TestBoxConfig) {
 
   window.addEventListener("message", (ev) => {
     const targetOrigin = getTargetOrigin();
-    if (!ev.origin.includes(targetOrigin)) {
+    if (targetOrigin && !ev.origin.includes(targetOrigin)) {
       info("target-mismatch", {
         messageOrigin: ev.origin,
         targetOrigin: targetOrigin,
