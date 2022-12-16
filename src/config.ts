@@ -1,4 +1,5 @@
 import { LoginEvent, NavigateEvent } from "./messaging/incoming";
+import {error} from "./utils/logging";
 
 export interface TestBoxConfig {
   allowFullStory?: boolean;
@@ -19,11 +20,11 @@ declare global {
 }
 
 export function getTargetOrigin() {
-  return getConfigItem("targetOrigin") || ".testbox.com";
+    return getConfigItem("targetOrigin", ".testbox.com");
 }
 
 export function getLogLevel() {
-  return getConfigItem("logLevel") || "none";
+  return getConfigItem("logLevel", "none");
 }
 
 export function setConfig<K extends keyof TestBoxConfig>(
@@ -38,7 +39,7 @@ export function setConfigItem<K extends keyof TestBoxConfig>(
   value: TestBoxConfig[K]
 ) {
   if (!window.__tbxConfig) {
-    console.error("TestBox configuration undefined!");
+    error("TestBox configuration undefined!");
     return;
   }
 
