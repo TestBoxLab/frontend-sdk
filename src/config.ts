@@ -1,5 +1,5 @@
 import { LoginEvent, NavigateEvent } from "./messaging/incoming";
-import {error} from "./utils/logging";
+import { error } from "./utils/logging";
 
 export interface TestBoxConfig {
   allowFullStory?: boolean;
@@ -20,7 +20,7 @@ declare global {
 }
 
 export function getTargetOrigin() {
-    return getConfigItem("targetOrigin", ".testbox.com");
+  return getConfigItem("targetOrigin", ".testbox.com");
 }
 
 export function getLogLevel() {
