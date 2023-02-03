@@ -1,5 +1,4 @@
 import { TestBoxMessage } from ".";
-import { MessageSender } from "./types";
 
 export const NAVIGATE = "navigate";
 export const INITIALIZE = "initialize";
@@ -27,9 +26,11 @@ export type NavigateEvent = {
 export type NavigateMessage = TestBoxMessage<typeof NAVIGATE, NavigateEvent>;
 
 export type LoginEvent = {
-  username?: string;
+  email: string;
   password?: string;
-  totpCode?: string;
+  totp_token?: string;
+  first_name?: string;
+  last_name?: string;
 };
 
 export type LoginMessage = TestBoxMessage<typeof LOGIN, LoginEvent>;
