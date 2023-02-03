@@ -27,10 +27,10 @@ export type NavigateMessage = TestBoxMessage<typeof NAVIGATE, NavigateEvent>;
 
 export type LoginEvent = {
   email: string;
-  password: string | null;
-  totp_token: string | null;
-  first_name: string | null;
-  last_name: string | null;
+  password?: string;
+  totp_token?: string;
+  first_name?: string;
+  last_name?: string;
 };
 
 export type LoginMessage = TestBoxMessage<typeof LOGIN, LoginEvent>;
