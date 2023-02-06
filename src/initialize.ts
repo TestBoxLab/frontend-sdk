@@ -32,7 +32,7 @@ function initializeCookies() {
   // inside the TestBox, we need to make sure they have samesite=none
   // since the top-level origin != the iframe origin
   const nativeCookieSetter = (document as any).__lookupSetter__("cookie");
-  // const nativeCookieGetter = (document as any).__lookupGetter__("cookie");
+  const nativeCookieGetter = (document as any).__lookupGetter__("cookie");
 
   function setCookieOverride(value: string) {
     if (value.toLowerCase().includes("samesite")) {
@@ -44,7 +44,7 @@ function initializeCookies() {
     return nativeCookieSetter.call(document, value);
   }
   (document as any).__defineSetter__("cookie", setCookieOverride);
-  // (document as any).__defineGetter__("cookie", nativeCookieGetter);
+  (document as any).__defineGetter__("cookie", nativeCookieGetter);
 }
 
 function rewriteLinks() {
