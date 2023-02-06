@@ -43,6 +43,7 @@ function initializeCookies() {
     // @ts-ignore
     return nativeCookieSetter.call(document, value);
   }
+  
   (document as any).__defineSetter__("cookie", setCookieOverride);
   // Re-sets the getter as it gets lost during the seter overwrite
   (document as any).__defineGetter__("cookie", nativeCookieGetter);
