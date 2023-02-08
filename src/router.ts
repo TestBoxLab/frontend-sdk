@@ -7,7 +7,7 @@ import {
   UnionedIncomingMessages,
   VALID_INCOMING_EVENTS,
 } from "./messaging/incoming";
-import { info, warn } from "./utils/logging";
+import { warn } from "./utils/logging";
 import { autoLogin } from "./utils/login";
 import { sendMessageToTestBox } from "./messaging";
 import { INITIALIZE_ACK, LOGIN_ACK, NAVIGATE_ACK } from "./messaging/outgoing";
@@ -42,10 +42,14 @@ export function routeMessage(
       case LOGIN:
         loggingIn = true;
         sendMessageToTestBox(LOGIN_ACK);
-        autoLogin(data, router).then((nextUrl: string) => {
+        autoLogin(data, router).then((nextUrl: string | boolean) => {
           loggingIn = false;
           const goTo = navigateUrl || nextUrl;
-          if (goTo && goTo !== window.location.href) {
+          if (
+            goTo &&
+            typeof goTo == "string" &&
+            goTo !== window.location.href
+          ) {
             const func = router["navigate"];
             if (func) {
               func({ url: goTo });
