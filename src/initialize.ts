@@ -63,10 +63,20 @@ function rewriteLinks() {
     "click",
     (event) => {
       rewriteTargets();
+      let target = "";
+      if (event.target instanceof Element) {
+        if (event.target.id) {
+          target = `#${event.target.id}`;
+        } else if (event.target.classList.length) {
+          target = `.${event.target.classList.value.replaceAll(" ", ".")}`;
+        } else {
+          target = event.target.tagName;
+        }
+      }
       sendMessageToTestBox(CLICK, {
         x: event.x,
         y: event.y,
-        target: event.target,
+        target,
       });
     },
     false
