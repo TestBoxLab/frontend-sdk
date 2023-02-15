@@ -22,7 +22,11 @@ type HealthCheckEvent = {
 type ClickEvent = {
   x: number;
   y: number;
-  target: any;
+  target?: string;
+};
+
+type LoginFailEvent = {
+  message?: string;
 };
 
 export interface TestBoxOutgoingEvents {
@@ -35,7 +39,7 @@ export interface TestBoxOutgoingEvents {
   [INITIALIZE_FAIL]: undefined;
   [LOGIN_ACK]: undefined;
   [LOGIN_SUCCESS]: undefined;
-  [LOGIN_FAIL]: undefined;
+  [LOGIN_FAIL]: LoginFailEvent;
   [LOGIN_NO_CREDS]: undefined;
   [NAVIGATE_ACK]: undefined;
 }
