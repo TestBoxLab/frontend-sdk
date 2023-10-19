@@ -1,5 +1,6 @@
 export const HEALTH_CHECK = "health-check";
 export const CLICK = "click";
+export const EXIT_FULLSCREEN = "exit-fullscreen";
 
 export const INITIALIZE_REQUEST = "initialize-request";
 export const RESET_IFRAME_REQUEST = "reset-iframe-request";
@@ -42,4 +43,5 @@ export interface TestBoxOutgoingEvents {
   [LOGIN_FAIL]: LoginFailEvent;
   [LOGIN_NO_CREDS]: undefined;
   [NAVIGATE_ACK]: undefined;
+  [EXIT_FULLSCREEN]: undefined;
 }

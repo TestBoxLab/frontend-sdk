@@ -2,6 +2,7 @@ import { sendMessageToTestBox } from "./messaging";
 import { addFullStory } from "./fullstory";
 import {
   CLICK,
+  EXIT_FULLSCREEN,
   HEALTH_CHECK,
   INITIALIZE_ACK,
   INITIALIZE_FAIL,
@@ -15,6 +16,7 @@ export function initializeTestBox(data: InitializeEvent) {
     sendMessageToTestBox(INITIALIZE_ACK);
     initializeCookies();
     rewriteLinks();
+    enhanceFullscreenExperience();
     startHealthChecks();
 
     if (data.optInFullStory && getConfigItem("allowFullStory")) {
@@ -47,6 +49,20 @@ function initializeCookies() {
   (document as any).__defineSetter__("cookie", setCookieOverride);
   // Re-sets the getter as it gets lost during the seter overwrite
   (document as any).__defineGetter__("cookie", nativeCookieGetter);
+}
+
+function enhanceFullscreenExperience() {
+  const ESCAPE_KEYS = ["27", "Escape"];
+
+  window.addEventListener(
+    "keydown",
+    ({ key }: KeyboardEvent) => {
+      if (ESCAPE_KEYS.includes(String(key))) {
+        sendMessageToTestBox(EXIT_FULLSCREEN);
+      }
+    },
+    false
+  );
 }
 
 function rewriteLinks() {
