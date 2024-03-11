@@ -71,7 +71,7 @@ startTestBox({
 });
 
 // Option 2: you can set the handler directly
-import testbox from "@testboxlab/browser-sdk";
+import testbox from "@testboxlab/browser";
 
 testbox.navigateHandler = (url) => {
     history.push(url);
