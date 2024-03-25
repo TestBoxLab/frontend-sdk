@@ -32,7 +32,7 @@ export const messageHandler = (
     return;
   }
 
-  console.log("wow", data)
+  console.log("wow", data);
 
   routeMessage(data, {
     navigate: navigateHandler,

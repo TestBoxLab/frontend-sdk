@@ -7,7 +7,7 @@ import { routeMessage } from "./router";
 
 let tbxStarted = false;
 
-export let navigateHandler: (data: NavigateEvent) => void 
+export let navigateHandler: (data: NavigateEvent) => void;
 export let loginHandler: (data: LoginEvent) => Promise<string | boolean> =
   undefined;
 

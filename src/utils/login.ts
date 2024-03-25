@@ -28,7 +28,7 @@ export async function autoLogin(
         if (window?.__tbxLoginEvent) {
           sendMessageToTestBox(LOGIN_FAIL, { message: "Failed to log in." });
         }
-      }, 10000)
+      }, 10000);
       return;
     }
 
