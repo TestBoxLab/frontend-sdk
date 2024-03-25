@@ -4,6 +4,7 @@ export const EXIT_FULLSCREEN = "exit-fullscreen";
 
 export const INITIALIZE_REQUEST = "initialize-request";
 export const RESET_IFRAME_REQUEST = "reset-iframe-request";
+export const LOGIN_HANDLER_REGISTERED = "login_handler_registered";
 
 export const INITIALIZE_ACK = "initialize-ack";
 export const INITIALIZE_SUCCESS = "initialize-success";
@@ -44,4 +45,5 @@ export interface TestBoxOutgoingEvents {
   [LOGIN_NO_CREDS]: undefined;
   [NAVIGATE_ACK]: undefined;
   [EXIT_FULLSCREEN]: undefined;
+  [LOGIN_HANDLER_REGISTERED]: undefined;
 }

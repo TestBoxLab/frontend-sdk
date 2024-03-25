@@ -1,19 +1,60 @@
-import { getTargetOrigin, TestBoxConfig } from "./config";
-import { info } from "./utils/logging";
-import {
-  isValidIncomingTestBoxMessage,
-  sendMessageToTestBox,
-} from "./messaging";
-import { routeMessage } from "./router";
-import { INITIALIZE_REQUEST } from "./messaging/outgoing";
+import type { TestBoxConfig, LoginHandler } from "./config";
+import { sendMessageToTestBox } from "./messaging";
+import { INITIALIZE_REQUEST, LOGIN_HANDLER_REGISTERED } from "./messaging/outgoing";
 import { LoginEvent, NavigateEvent } from "./messaging/incoming";
+import { messageEventCallback } from "./message-event"
+import { routeMessage } from "./router";
 
 let tbxStarted = false;
+let isLoginHandlerRegistered = false;
 
-export let navigateHandler: (data: NavigateEvent) => void;
+export let navigateHandler: (data: NavigateEvent) => void = (data) => {
+  window.location.href = data.url;
+};;
 export let loginHandler: (
   data: LoginEvent
-) => Promise<string | boolean> = async () => false;
+) => Promise<string | boolean> = undefined;
+function middleware(ev: MessageEvent<any>) {
+  messageEventCallback(ev, { navigateHandler, loginHandler })
+}
+
+export async function registerLoginHandler(newLoginHandler: LoginHandler) {
+  if (isLoginHandlerRegistered) {
+    throw Error("LoginHandler already registered!")
+  }
+
+  if (!tbxStarted) {
+    throw new Error("StartTestbox function must be called before registering login handler!")
+  }
+
+  window.removeEventListener(
+    "message",
+    middleware
+  )
+
+  loginHandler = newLoginHandler
+
+  if (window?.__loginMessagesQueue && window.__loginMessagesQueue.length > 0) {
+    for (const loginMessage of window.__loginMessagesQueue) {
+      routeMessage(
+        loginMessage,
+        {
+          navigate: navigateHandler,
+          login: loginHandler
+        }
+      )
+    }
+    window.__loginMessagesQueue = []
+  }
+
+  window.addEventListener(
+    "message",
+    middleware
+  )
+
+  sendMessageToTestBox(LOGIN_HANDLER_REGISTERED)
+  isLoginHandlerRegistered = true;
+}
 
 export function startTestBox(config?: TestBoxConfig) {
   if (tbxStarted) {
@@ -21,6 +62,7 @@ export function startTestBox(config?: TestBoxConfig) {
   }
 
   window.__tbxConfig = config;
+  window.__loginMessagesQueue = [];
 
   if (window.__tbxConfig.navigateHandler) {
     navigateHandler = window.__tbxConfig.navigateHandler;
@@ -34,28 +76,9 @@ export function startTestBox(config?: TestBoxConfig) {
     loginHandler = window.__tbxConfig.loginHandler;
   }
 
-  window.addEventListener("message", (ev) => {
-    const targetOrigin = getTargetOrigin();
-    if (!ev.origin.includes(targetOrigin)) {
-      info("target-mismatch", {
-        messageOrigin: ev.origin,
-        targetOrigin: targetOrigin,
-      });
-      return;
-    }
-
-    const { data } = ev;
-
-    if (!isValidIncomingTestBoxMessage(data)) {
-      info("not-a-testbox-message", { data });
-      return;
-    }
-
-    routeMessage(data, {
-      navigate: navigateHandler,
-      login: loginHandler,
-    });
-  });
+  if (!isLoginHandlerRegistered){
+    window.addEventListener("message", middleware)
+  }
 
   sendMessageToTestBox(INITIALIZE_REQUEST);
   tbxStarted = true;
@@ -64,3 +87,4 @@ export function startTestBox(config?: TestBoxConfig) {
 export const start = startTestBox;
 
 export { TestBoxConfig };
+
