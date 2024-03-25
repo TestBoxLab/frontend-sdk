@@ -1,68 +1,26 @@
 import { registerLoginHandler, startTestBox } from ".";
 
-const params = new URLSearchParams(window.location.search);
-const testcase = params.get("testcase");
+declare global {
+  interface Window {
+    fakeLoginHandler: any;
+    startTestBox: any;
+    registerLoginHandler: any;
+    baseTbxConfig: {
+      targetOrigin: string;
+      allowFullStory: boolean;
+    }
+  }
+}
 
 async function fakeLoginHandler(props) {
-  console.log("PROPS", props);
+  console.log("Fake login handler called with", props);
   return true;
 }
 
-switch (testcase) {
-  case "delayed-login-handler-register":
-    startTestBox(window.__tbxConfig || { allowFullStory: true });
-    setTimeout(() => registerLoginHandler(fakeLoginHandler), 3000);
-    postMessage({
-      testbox: {
-        version: 1,
-        sender: "app",
-        event: "login",
-        data: {
-          email: "testuser1@tbxofficial.com",
-          password: "password",
-          first_name: "Test",
-          last_name: "User 1",
-        },
-      },
-    });
-    break;
-  case "login-handler-registered-before-login-message":
-    startTestBox(window.__tbxConfig || { allowFullStory: true });
-    registerLoginHandler(fakeLoginHandler);
-    setTimeout(() => {
-      postMessage({
-        testbox: {
-          version: 1,
-          sender: "app",
-          event: "login",
-          data: {
-            email: "testuser10@tbxofficial.com",
-            password: "password",
-            first_name: "Test",
-            last_name: "User 10",
-          },
-        },
-      });
-    }, 3000);
-    break;
-  default:
-    startTestBox(
-      window.__tbxConfig || {
-        allowFullStory: true,
-        loginHandler: fakeLoginHandler,
-      }
-    );
-    postMessage({
-      testbox: {
-        version: 1,
-        sender: "app",
-        event: "login",
-        data: {
-          email: "testuser1000@tbxofficial.com",
-          password: "password",
-          first_name: "Test",
-          last_name: "User 1000",
-        },
-      },
-    });
+window.fakeLoginHandler = fakeLoginHandler;
+window.startTestBox = startTestBox
+window.registerLoginHandler = registerLoginHandler
+window.baseTbxConfig = {
+  targetOrigin: "localhost",
+  allowFullStory: true
 }
