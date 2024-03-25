@@ -32,8 +32,6 @@ export const messageHandler = (
     return;
   }
 
-  console.log("wow", data);
-
   routeMessage(data, {
     navigate: navigateHandler,
     login: loginHandler,
