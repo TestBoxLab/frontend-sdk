@@ -14,13 +14,13 @@ export let navigateHandler: (data: NavigateEvent) => void = (data) => {
 export let loginHandler: (
   data: LoginEvent
 ) => Promise<string | boolean> = undefined;
-function middleware(ev: MessageEvent<any>) {
+function eventCallbackMiddleware(ev: MessageEvent<any>) {
   messageEventCallback(ev, { navigateHandler, loginHandler })
 }
 
 export async function registerLoginHandler(newLoginHandler: LoginHandler) {
   if (isLoginHandlerRegistered) {
-    throw Error("LoginHandler already registered!")
+    throw new Error("LoginHandler already registered!")
   }
 
   if (!tbxStarted) {
@@ -29,7 +29,7 @@ export async function registerLoginHandler(newLoginHandler: LoginHandler) {
 
   window.removeEventListener(
     "message",
-    middleware
+    eventCallbackMiddleware
   )
 
   loginHandler = newLoginHandler
@@ -49,7 +49,7 @@ export async function registerLoginHandler(newLoginHandler: LoginHandler) {
 
   window.addEventListener(
     "message",
-    middleware
+    eventCallbackMiddleware
   )
 
   sendMessageToTestBox(LOGIN_HANDLER_REGISTERED)
@@ -77,7 +77,7 @@ export function startTestBox(config?: TestBoxConfig) {
   }
 
   if (!isLoginHandlerRegistered){
-    window.addEventListener("message", middleware)
+    window.addEventListener("message", eventCallbackMiddleware)
   }
 
   sendMessageToTestBox(INITIALIZE_REQUEST);
