@@ -14,6 +14,7 @@ export interface TestBoxConfig {
   logLevel?: string;
   targetOrigin?: string;
   loginHandler?: LoginHandler;
+  loginEventFallbackInMilliseconds?: number
   linkTargetLoopInterval?: number;
   healthCheckInterval?: number;
   window?: Window;

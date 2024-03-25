@@ -9,7 +9,7 @@ interface MessageEventCallback {
   loginHandler: (props: LoginEvent) => Promise<string | boolean>;
 }
 
-export const messageEventCallback = (
+export const messageHandler = (
   ev: globalThis.MessageEvent<any>,
   { loginHandler, navigateHandler }: MessageEventCallback
 ) => {
@@ -31,6 +31,8 @@ export const messageEventCallback = (
     info("not-a-testbox-message", { data });
     return;
   }
+
+  console.log("wow", data)
 
   routeMessage(data, {
     navigate: navigateHandler,

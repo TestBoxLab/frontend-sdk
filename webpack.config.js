@@ -4,7 +4,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 module.exports = {
     mode: "development",
-    entry: [path.join(__dirname, 'src', 'cdn.ts')],
+    entry: [path.join(__dirname, 'cypress', 'cdn.test.ts')],
     output: {
         path: path.join(__dirname, 'static'),
         publicPath: '/',

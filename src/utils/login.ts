@@ -24,6 +24,11 @@ export async function autoLogin(
           sender: MessageSender.APP,
         },
       };
+      setTimeout(() => {
+        if (window?.__tbxLoginEvent) {
+          sendMessageToTestBox(LOGIN_FAIL, { message: "Failed to log in." });
+        }
+      }, 10000)
       return;
     }
 

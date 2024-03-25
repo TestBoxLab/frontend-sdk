@@ -3,7 +3,7 @@ const spyPostMessage = (win) => {
   cy.spy(win.parent, "postMessage").as("postMessage");
 };
 const spyLoginHandler = (win) => {
-  cy.spy(win, "fakeLoginHandler").as("loginHandler");
+  cy.spy(win, "test_fakeLoginHandler").as("loginHandler");
 };
 const assertInitializeCall = () =>
   cy.get("@postMessage").should(
@@ -19,6 +19,22 @@ const assertInitializeCall = () =>
     "*"
   );
 
+const fakeLoginMessage = () => ({
+  testbox: {
+    version: 1,
+    sender: "app",
+    event: "login",
+    data: {
+      email: "testuser1@tbxofficial.com",
+      password: "password",
+      first_name: "Test",
+      last_name: "User 1",
+    },
+  },
+  }
+)
+const fakeLoginMessageStringified = JSON.stringify(fakeLoginMessage())
+
 describe("testbox script", () => {
   it("Sends initialize to TestBox", () => {
     cy.visit(BASE_URL, {
@@ -26,7 +42,7 @@ describe("testbox script", () => {
     });
 
     cy.window().then((win) => {
-      win.eval(`startTestBox(window.baseTbxConfig);`);
+      win.eval(`test_startTestBox(window.test_baseTbxConfig);`);
     });
 
     assertInitializeCall();
@@ -40,35 +56,17 @@ describe("testbox script", () => {
 
     cy.window().then((win) => {
       win.eval(
-        `startTestBox({ ...window.baseTbxConfig, loginHandler: window.fakeLoginHandler });`
+        `test_startTestBox({ ...window.test_baseTbxConfig, loginHandler: window.test_fakeLoginHandler });`
       );
     });
 
     assertInitializeCall();
 
     cy.window().then((win) => {
-      win.eval(`
-        postMessage({
-          testbox: {
-            version: 1,
-            sender: "app",
-            event: "login",
-            data: {
-              email: "testuser1@tbxofficial.com",
-              password: "password",
-              first_name: "Test",
-              last_name: "User 1",
-            },
-          },
-        });`);
+      win.eval(`postMessage(${fakeLoginMessageStringified})`);
     });
 
-    cy.get("@loginHandler").should("have.been.calledOnceWith", {
-      email: "testuser1@tbxofficial.com",
-      password: "password",
-      first_name: "Test",
-      last_name: "User 1",
-    });
+    cy.get("@loginHandler").should("have.been.calledOnceWith", fakeLoginMessage().testbox.data);
   });
 
   it("Login handler register after login message", () => {
@@ -78,35 +76,18 @@ describe("testbox script", () => {
     });
 
     cy.window().then((win) => {
-      win.eval(`startTestBox(window.baseTbxConfig);`);
+      win.eval(`test_startTestBox(window.test_baseTbxConfig);`);
     });
 
     assertInitializeCall();
 
     cy.window().then((win) => {
       win.eval(`
-        postMessage({
-          testbox: {
-            version: 1,
-            sender: "app",
-            event: "login",
-            data: {
-              email: "testuser1@tbxofficial.com",
-              password: "password",
-              first_name: "Test",
-              last_name: "User 1",
-            },
-          },
-        });`);
-      win.eval("window.registerLoginHandler(window.fakeLoginHandler);");
+        postMessage(${fakeLoginMessageStringified});`);
+      win.eval("window.test_registerLoginHandler(window.test_fakeLoginHandler);");
     });
 
-    cy.get("@loginHandler").should("have.been.calledOnceWith", {
-      email: "testuser1@tbxofficial.com",
-      password: "password",
-      first_name: "Test",
-      last_name: "User 1",
-    });
+    cy.get("@loginHandler").should("have.been.calledOnceWith", fakeLoginMessage().testbox.data);
   });
 
   it("Login handler register before login message", () => {
@@ -116,34 +97,44 @@ describe("testbox script", () => {
     });
 
     cy.window().then((win) => {
-      win.eval(`startTestBox(window.baseTbxConfig);`);
+      win.eval(`test_startTestBox(window.test_baseTbxConfig);`);
     });
 
     assertInitializeCall();
 
     cy.window().then((win) => {
-      win.eval("window.registerLoginHandler(window.fakeLoginHandler);");
+      win.eval("window.test_registerLoginHandler(window.test_fakeLoginHandler);");
       win.eval(`
-        postMessage({
-          testbox: {
-            version: 1,
-            sender: "app",
-            event: "login",
-            data: {
-              email: "testuser1@tbxofficial.com",
-              password: "password",
-              first_name: "Test",
-              last_name: "User 1",
-            },
-          },
-        });`);
+        postMessage(${fakeLoginMessageStringified});`);
     });
 
-    cy.get("@loginHandler").should("have.been.calledOnceWith", {
-      email: "testuser1@tbxofficial.com",
-      password: "password",
-      first_name: "Test",
-      last_name: "User 1",
+    cy.get("@loginHandler").should("have.been.calledOnceWith", fakeLoginMessage().testbox.data);
+  });
+
+  it("Login event waiting for more than 10 seconds", () => {
+    cy.visit(BASE_URL, {
+      onBeforeLoad: spyPostMessage,
+      onLoad: spyLoginHandler,
+    });
+
+    cy.window().then((win) => {
+      win.eval(`test_startTestBox({...window.test_baseTbxConfig, window: window.parent });`);
+    });
+
+    cy.window().then((win) => {
+      win.eval(`
+        postMessage(${fakeLoginMessageStringified});`);
+    })
+
+    cy.wait(10500)
+
+    cy.get("@postMessage").should("have.been.calledWith", {
+      testbox: {
+        version: 1,
+        event: "login-fail",
+        data: { message: "Failed to log in." },
+        sender: "partner"
+      }
     });
   });
 });

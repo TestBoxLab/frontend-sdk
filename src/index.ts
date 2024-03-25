@@ -2,23 +2,21 @@ import type { TestBoxConfig, LoginHandler } from "./config";
 import { sendMessageToTestBox } from "./messaging";
 import { INITIALIZE_REQUEST } from "./messaging/outgoing";
 import { LoginEvent, NavigateEvent } from "./messaging/incoming";
-import { messageEventCallback } from "./message-event";
+import { messageHandler } from "./message-event";
 import { routeMessage } from "./router";
 
 let tbxStarted = false;
-let isLoginHandlerRegistered = false;
 
-export let navigateHandler: (data: NavigateEvent) => void = (data) => {
-  window.location.href = data.url;
-};
+export let navigateHandler: (data: NavigateEvent) => void 
 export let loginHandler: (data: LoginEvent) => Promise<string | boolean> =
   undefined;
-function eventCallbackMiddleware(ev: MessageEvent<any>) {
-  messageEventCallback(ev, { navigateHandler, loginHandler });
+
+function messageEventCallback(ev: MessageEvent<any>) {
+  messageHandler(ev, { navigateHandler, loginHandler });
 }
 
 export async function registerLoginHandler(newLoginHandler: LoginHandler) {
-  if (isLoginHandlerRegistered) {
+  if (loginHandler) {
     throw new Error("LoginHandler already registered!");
   }
 
@@ -28,7 +26,7 @@ export async function registerLoginHandler(newLoginHandler: LoginHandler) {
     );
   }
 
-  window.removeEventListener("message", eventCallbackMiddleware);
+  window.removeEventListener("message", messageEventCallback);
 
   loginHandler = newLoginHandler;
 
@@ -40,9 +38,7 @@ export async function registerLoginHandler(newLoginHandler: LoginHandler) {
     window.__tbxLoginEvent = null;
   }
 
-  window.addEventListener("message", eventCallbackMiddleware);
-
-  isLoginHandlerRegistered = true;
+  window.addEventListener("message", messageEventCallback);
 }
 
 export function startTestBox(config?: TestBoxConfig) {
@@ -55,13 +51,17 @@ export function startTestBox(config?: TestBoxConfig) {
 
   if (window.__tbxConfig.navigateHandler) {
     navigateHandler = window.__tbxConfig.navigateHandler;
+  } else {
+    navigateHandler = (data) => {
+      window.location.href = data.url;
+    };
   }
 
   if (window.__tbxConfig.loginHandler) {
     loginHandler = window.__tbxConfig.loginHandler;
   }
 
-  window.addEventListener("message", eventCallbackMiddleware);
+  window.addEventListener("message", messageEventCallback);
 
   sendMessageToTestBox(INITIALIZE_REQUEST);
   tbxStarted = true;
