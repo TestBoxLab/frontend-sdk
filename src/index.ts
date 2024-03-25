@@ -2,7 +2,6 @@ import type { TestBoxConfig, LoginHandler } from "./config";
 import { sendMessageToTestBox } from "./messaging";
 import {
   INITIALIZE_REQUEST,
-  LOGIN_HANDLER_REGISTERED,
 } from "./messaging/outgoing";
 import { LoginEvent, NavigateEvent } from "./messaging/incoming";
 import { messageEventCallback } from "./message-event";
@@ -35,19 +34,16 @@ export async function registerLoginHandler(newLoginHandler: LoginHandler) {
 
   loginHandler = newLoginHandler;
 
-  if (window?.__loginMessagesQueue && window.__loginMessagesQueue.length > 0) {
-    for (const loginMessage of window.__loginMessagesQueue) {
-      routeMessage(loginMessage, {
-        navigate: navigateHandler,
-        login: loginHandler,
-      });
-    }
-    window.__loginMessagesQueue = [];
+  if (window?.__tbxLoginEvent) {
+    routeMessage(window?.__tbxLoginEvent, {
+      navigate: navigateHandler,
+      login: loginHandler,
+    });
+    window.__tbxLoginEvent = null;
   }
 
   window.addEventListener("message", eventCallbackMiddleware);
 
-  sendMessageToTestBox(LOGIN_HANDLER_REGISTERED);
   isLoginHandlerRegistered = true;
 }
 
@@ -57,23 +53,17 @@ export function startTestBox(config?: TestBoxConfig) {
   }
 
   window.__tbxConfig = config;
-  window.__loginMessagesQueue = [];
+  window.__tbxLoginEvent = null;
 
   if (window.__tbxConfig.navigateHandler) {
     navigateHandler = window.__tbxConfig.navigateHandler;
-  } else {
-    navigateHandler = (data) => {
-      window.location.href = data.url;
-    };
   }
 
   if (window.__tbxConfig.loginHandler) {
     loginHandler = window.__tbxConfig.loginHandler;
   }
 
-  if (!isLoginHandlerRegistered) {
-    window.addEventListener("message", eventCallbackMiddleware);
-  }
+  window.addEventListener("message", eventCallbackMiddleware);
 
   sendMessageToTestBox(INITIALIZE_REQUEST);
   tbxStarted = true;

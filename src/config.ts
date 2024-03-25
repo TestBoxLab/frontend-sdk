@@ -24,13 +24,12 @@ export interface TestBoxConfig {
 declare global {
   interface Window {
     __tbxConfig?: TestBoxConfig;
-    __registeredLoginHandler?: LoginHandler;
-    __loginMessagesQueue?: LoginMessage[];
+    __tbxLoginEvent?: LoginMessage;
   }
 }
 
 export function getTargetOrigin() {
-  return window.__tbxConfig?.targetOrigin || ".testbox.com";
+  return window.__tbxConfig?.targetOrigin || "localhost";
 }
 
 export function getLogLevel() {

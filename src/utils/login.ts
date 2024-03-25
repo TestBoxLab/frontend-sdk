@@ -16,14 +16,14 @@ export async function autoLogin(
   try {
     const func = router["login"];
     if (!func) {
-      window.__loginMessagesQueue.push({
+      window.__tbxLoginEvent = {
         testbox: {
           event: "login",
           data,
           version: 1,
           sender: MessageSender.APP,
         },
-      });
+      };
       return;
     }
 

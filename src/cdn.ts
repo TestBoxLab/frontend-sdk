@@ -25,19 +25,6 @@ switch (testcase) {
         },
       },
     });
-    postMessage({
-      testbox: {
-        version: 1,
-        sender: "app",
-        event: "login",
-        data: {
-          email: "testuser2@tbxofficial.com",
-          password: "password",
-          first_name: "Test",
-          last_name: "User 2",
-        },
-      },
-    });
     break;
   case "login-handler-registered-before-login-message":
     startTestBox(window.__tbxConfig || { allowFullStory: true });
