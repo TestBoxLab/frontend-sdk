@@ -34,6 +34,6 @@ export const messageEventCallback = (
 
   routeMessage(data, {
     navigate: navigateHandler,
-    login: loginHandler
+    login: loginHandler,
   });
 };

@@ -1,8 +1,6 @@
 import type { TestBoxConfig, LoginHandler } from "./config";
 import { sendMessageToTestBox } from "./messaging";
-import {
-  INITIALIZE_REQUEST,
-} from "./messaging/outgoing";
+import { INITIALIZE_REQUEST } from "./messaging/outgoing";
 import { LoginEvent, NavigateEvent } from "./messaging/incoming";
 import { messageEventCallback } from "./message-event";
 import { routeMessage } from "./router";
