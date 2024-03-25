@@ -16,17 +16,15 @@ export async function autoLogin(
   try {
     const func = router["login"];
     if (!func) {
-      window.__loginMessagesQueue.push(
-        { 
-          testbox: { 
-            event: "login",
-            data,
-            version: 1,
-            sender: MessageSender.APP
-          }
-        }
-      )
-      return
+      window.__loginMessagesQueue.push({
+        testbox: {
+          event: "login",
+          data,
+          version: 1,
+          sender: MessageSender.APP,
+        },
+      });
+      return;
     }
 
     nextUrl = await func(data);
