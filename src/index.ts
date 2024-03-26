@@ -1,19 +1,45 @@
-import { getTargetOrigin, TestBoxConfig } from "./config";
-import { info } from "./utils/logging";
-import {
-  isValidIncomingTestBoxMessage,
-  sendMessageToTestBox,
-} from "./messaging";
-import { routeMessage } from "./router";
+import type { TestBoxConfig, LoginHandler } from "./config";
+import { sendMessageToTestBox } from "./messaging";
 import { INITIALIZE_REQUEST } from "./messaging/outgoing";
 import { LoginEvent, NavigateEvent } from "./messaging/incoming";
+import { messageHandler } from "./message-event";
+import { routeMessage } from "./router";
 
 let tbxStarted = false;
 
 export let navigateHandler: (data: NavigateEvent) => void;
-export let loginHandler: (
-  data: LoginEvent
-) => Promise<string | boolean> = async () => false;
+export let loginHandler: (data: LoginEvent) => Promise<string | boolean> =
+  undefined;
+
+function messageEventCallback(ev: MessageEvent<any>) {
+  messageHandler(ev, { navigateHandler, loginHandler });
+}
+
+export async function registerLoginHandler(newLoginHandler: LoginHandler) {
+  if (loginHandler) {
+    throw new Error("LoginHandler already registered!");
+  }
+
+  if (!tbxStarted) {
+    throw new Error(
+      "StartTestbox function must be called before registering login handler!"
+    );
+  }
+
+  window.removeEventListener("message", messageEventCallback);
+
+  loginHandler = newLoginHandler;
+
+  if (window?.__tbxLoginEvent) {
+    routeMessage(window?.__tbxLoginEvent, {
+      navigate: navigateHandler,
+      login: loginHandler,
+    });
+    window.__tbxLoginEvent = null;
+  }
+
+  window.addEventListener("message", messageEventCallback);
+}
 
 export function startTestBox(config?: TestBoxConfig) {
   if (tbxStarted) {
@@ -21,6 +47,7 @@ export function startTestBox(config?: TestBoxConfig) {
   }
 
   window.__tbxConfig = config;
+  window.__tbxLoginEvent = null;
 
   if (window.__tbxConfig.navigateHandler) {
     navigateHandler = window.__tbxConfig.navigateHandler;
@@ -34,28 +61,7 @@ export function startTestBox(config?: TestBoxConfig) {
     loginHandler = window.__tbxConfig.loginHandler;
   }
 
-  window.addEventListener("message", (ev) => {
-    const targetOrigin = getTargetOrigin();
-    if (!ev.origin.includes(targetOrigin)) {
-      info("target-mismatch", {
-        messageOrigin: ev.origin,
-        targetOrigin: targetOrigin,
-      });
-      return;
-    }
-
-    const { data } = ev;
-
-    if (!isValidIncomingTestBoxMessage(data)) {
-      info("not-a-testbox-message", { data });
-      return;
-    }
-
-    routeMessage(data, {
-      navigate: navigateHandler,
-      login: loginHandler,
-    });
-  });
+  window.addEventListener("message", messageEventCallback);
 
   sendMessageToTestBox(INITIALIZE_REQUEST);
   tbxStarted = true;

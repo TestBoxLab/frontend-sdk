@@ -1,7 +1,8 @@
 import { getConfigItem } from "../config";
 import { UnionedIncomingMessages, VALID_INCOMING_EVENTS } from "./incoming";
 import { TestBoxOutgoingEvents } from "./outgoing";
-import { MessageSender, TestBoxMessage } from "./types";
+import type { TestBoxMessage } from "./types";
+import { MessageSender } from "./types";
 
 export function sendMessageToTestBox<K extends keyof TestBoxOutgoingEvents>(
   event: K,

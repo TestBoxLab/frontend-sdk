@@ -1,20 +1,31 @@
-import { LoginEvent, NavigateEvent } from "./messaging/incoming";
+import type {
+  LoginEvent,
+  LoginMessage,
+  NavigateEvent,
+} from "./messaging/incoming";
+
+export type LoginHandler = (props: LoginEvent) => Promise<string | boolean>;
+export type RegisterLoginHandler = (
+  loginHandlerFunc: LoginHandler
+) => Promise<string | boolean>;
 
 export interface TestBoxConfig {
   allowFullStory?: boolean;
   logLevel?: string;
   targetOrigin?: string;
+  loginHandler?: LoginHandler;
+  loginEventFallbackInMilliseconds?: number;
   linkTargetLoopInterval?: number;
   healthCheckInterval?: number;
   window?: Window;
 
   navigateHandler?: (url: NavigateEvent) => Promise<void>;
-  loginHandler?: (props: LoginEvent) => Promise<string | boolean>;
 }
 
 declare global {
   interface Window {
     __tbxConfig?: TestBoxConfig;
+    __tbxLoginEvent?: LoginMessage;
   }
 }
 
