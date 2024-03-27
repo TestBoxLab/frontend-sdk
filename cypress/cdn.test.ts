@@ -1,8 +1,9 @@
-import { registerLoginHandler, startTestBox } from "../src";
+import { registerLoginHandler, startTestBox } from "../src/index";
 
 declare global {
   interface Window {
-    test_fakeLoginHandler: any;
+    test_fakeLoginHandler: (props) => Promise<string | boolean>;
+    test_fakeNavigateHandler: (data) => void;
     test_startTestBox: any;
     test_registerLoginHandler: any;
     test_baseTbxConfig: {
@@ -14,10 +15,15 @@ declare global {
 
 async function fakeLoginHandler(props) {
   console.log("Fake login handler called with", props);
-  return true;
+  return new Promise<boolean>(resolve => resolve(true))
+}
+
+function fakeNavigateHandler(data) {
+  return true
 }
 
 window.test_fakeLoginHandler = fakeLoginHandler;
+window.test_fakeNavigateHandler = fakeNavigateHandler
 window.test_startTestBox = startTestBox
 window.test_registerLoginHandler = registerLoginHandler
 window.test_baseTbxConfig = {

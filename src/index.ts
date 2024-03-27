@@ -4,6 +4,7 @@ import { INITIALIZE_REQUEST } from "./messaging/outgoing";
 import { LoginEvent, NavigateEvent } from "./messaging/incoming";
 import { messageHandler } from "./message-event";
 import { routeMessage } from "./router";
+import { warn } from "./utils/logging";
 
 let tbxStarted = false;
 
@@ -17,7 +18,7 @@ function messageEventCallback(ev: MessageEvent<any>) {
 
 export async function registerLoginHandler(newLoginHandler: LoginHandler) {
   if (loginHandler) {
-    throw new Error("LoginHandler already registered!");
+    warn("Login handler already registered!")
   }
 
   if (!tbxStarted) {
