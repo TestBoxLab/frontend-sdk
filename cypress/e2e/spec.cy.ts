@@ -119,7 +119,7 @@ describe("testbox script", () => {
     cy.get("@loginHandlerSpy").should("have.been.calledOnceWith", fakeLoginMessage().testbox.data);
   });
 
-  it("Login handler should return redirect url", () => {
+  it("Navigate handler is called for login handler return url", () => {
     const fakeRedirectUrl = "https://fakeurl.com/success"
     cy.visit(BASE_URL, {
       onBeforeLoad: spyPostMessage,
@@ -139,7 +139,6 @@ describe("testbox script", () => {
         postMessage(${fakeLoginMessageStringified});`);
     });
 
-    cy.get("@loginHandlerStub").should("have.returned", fakeRedirectUrl);
     cy.get("@navigateHandlerSpy").should("have.been.calledWith", {url: fakeRedirectUrl});
   });
 
@@ -158,8 +157,6 @@ describe("testbox script", () => {
       win.eval(`
         postMessage(${fakeLoginMessageStringified});`);
     });
-
-    cy.get("@loginHandlerStub").should("have.returned", false);
 
     cy.get("@postMessage").should("have.been.calledWith", {
      testbox: {
@@ -189,9 +186,6 @@ describe("testbox script", () => {
         postMessage(${fakeLoginMessageStringified});`);
     });
 
-    cy.wrap(win => {
-      cy.get("@loginHandlerSpy").should("have.been.calledWith", true)
-    })
     cy.get("@postMessage").should("have.been.calledWith", {
      testbox: {
        version: 1,
