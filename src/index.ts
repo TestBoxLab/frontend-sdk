@@ -18,7 +18,7 @@ function messageEventCallback(ev: MessageEvent<any>) {
 
 export async function registerLoginHandler(newLoginHandler: LoginHandler) {
   if (loginHandler) {
-    warn("Login handler already registered!")
+    warn("Login handler already registered!");
   }
 
   if (!tbxStarted) {
