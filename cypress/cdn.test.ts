@@ -15,7 +15,7 @@ declare global {
 
 async function fakeLoginHandler(props) {
   console.log("Fake login handler called with", props);
-  return new Promise<boolean>(resolve => resolve(true))
+  return true
 }
 
 function fakeNavigateHandler(data) {

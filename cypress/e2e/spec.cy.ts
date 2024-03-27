@@ -188,6 +188,19 @@ describe("testbox script", () => {
       win.eval(`
         postMessage(${fakeLoginMessageStringified});`);
     });
+
+    cy.wrap(win => {
+      cy.get("@loginHandlerSpy").should("have.been.calledWith", true)
+    })
+    cy.get("@postMessage").should("have.been.calledWith", {
+     testbox: {
+       version: 1,
+       event: "login-success",
+       data: undefined,
+       sender: "partner"
+      }
+    })
+
   });
 
   it("registerLoginHandler should display warning if registered more than once", () => {
