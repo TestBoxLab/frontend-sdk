@@ -28,13 +28,7 @@ If you just need the basics of TestBox for your app, you'll use something like t
 ```javascript
 import { startTestBox } from "@testboxlab/browser";
 
-startTestBox({
-    allowFullStory: true,
-    // Allowing FullStory allows us to give you insights into how users
-    // are using your web application compared to others. However, it is
-    // explicitly opt-in in case you do not wish for your environments
-    // to be recorded.
-});
+startTestBox();
 ```
 
 This will allow TestBox to communicate with your web site. This communication is
@@ -55,46 +49,84 @@ export default function App() {
 
 ### Navigation
 
-If you use react-router, or any kind of client-side routing, you may want to override
-our standard navigation behavior. Navigation happens when a user chooses a use case
-they want to try out. By default, TestBox will use `window.location` to push the iFrame
-to a new URL. You might want to do something more sophisticated.
+Navigation happens when a user chooses a use case they want to try out.
+By default, TestBox will use `window.location` to push the iFrame to a new URL.
 
-There are two ways to interact with the browser SDK for events:
+If you use react-router, or any kind of client-side routing, you may want to override
+our standard navigation behavior. To do so, especify your custom handler on the
+configuration object for `startTestBox` method:
 
 ```javascript
-// Option 1: you can use the config object
-startTestBox({
-    navigateHandler: (url) => {
-        history.push(url);
-    }
-});
+const testboxConfig = {
+    navigateHandler: (url) => { history.push(url) },
+}
 
-// Option 2: you can set the handler directly
-import testbox from "@testboxlab/browser";
+startTestBox(testboxConfig);
 
-testbox.navigateHandler = (url) => {
-    history.push(url);
-};
 ```
 
 ### Auto-login
 
 If you have opted to use our client-side auto-login functionality, you have a bit
-more work to do.
+more work to do. You should create a login handler, which is responsible for logging
+in to your platform and returning the url used by the `navigationHandler` to
+redirect the user accordingly.
 
-On your login page/component, you will want to add some code similar to the following:
+It can be configured in one of two ways:
+
+- Once again, specifying it on the configuration object on start:
+    ```javascript
+    const testboxConfig = {
+        loginHandler: (email, password) => {
+            // Use the email and password to log in, either by filling out
+            // your "login" form and submitting, or some other mechanism.
+            
+            // Then return a boolean (according to the status of the login attempt)
+            // or the url being fowarded to the navigation handler.
+            return "/";
+        },
+    }
+
+    startTestBox(testboxConfig);
+    ```
+- or registering it afterwards:
+    ```javascript
+    import { registerLoginHandler } from "@testboxlab/browser";
+
+    const loginHandler = (email, password) => {
+        // Use the email and password to log in, either by filling out
+        // your "login" form and submitting, or some other mechanism.
+        
+        // Then return a boolean (according to the status of the login attempt)
+        // or the url being fowarded to the navigation handler. 
+        return "/";
+    }
+
+    registerLoginHandler(loginHandler);
+
+    ```
+
+> [!IMPORTANT]
+> In case your implementation includes the usage of the login handler,
+> it should **always** be registered, even when the user loads the page
+> with a valid session logged in.
+
+### FullStory
+
+Enabling FullStory allows us to give you insights into how users
+are using your web application compared to others. However, it is
+explicitly opt-in in case you do not wish for your environments
+to be recorded.
+
+You can enable FullStory by setting the `allowFullStory` to `true`
+on the configuration object:
 
 ```javascript
-import testbox from "@testboxlab/browser";
+const testboxConfig = {
+    allowFullStory: true,
+}
 
-testbox.loginHandler = ((email, password) => {
-    // Use the email and password to log in, either by filling out
-    // your "login" form and submitting, or some other mechanism.
-
-    // After logging in, make sure to redirect the user.
-    window.location = "/";
-});
+startTestBox(testboxConfig);
 ```
 
 ## Testing
