@@ -80,8 +80,8 @@ It can be configured in one of two ways:
             // Use the email and password to log in, either by filling out
             // your "login" form and submitting, or some other mechanism.
             
-            // Then return `true`, `false` or the url being fowarded to the
-            // navigator handler. 
+            // Then return a boolean (according to the status of the login attempt)
+            // or the url being fowarded to the navigation handler.
             return "/";
         },
     }
