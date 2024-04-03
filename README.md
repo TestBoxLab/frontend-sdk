@@ -68,8 +68,9 @@ startTestBox(testboxConfig);
 ### Auto-login
 
 If you have opted to use our client-side auto-login functionality, you have a bit
-more work to do. You should create a login handler, which is responsible for both
-logging in to your platform and redirecting the user accordingly.
+more work to do. You should create a login handler, which is responsible for logging
+in to your platform and returning the url used by the `navigationHandler` to
+redirect the user accordingly.
 
 It can be configured in one of two ways:
 
