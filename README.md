@@ -53,8 +53,8 @@ Navigation happens when a user chooses a use case they want to try out.
 By default, TestBox will use `window.location` to push the iFrame to a new URL.
 
 If you use react-router, or any kind of client-side routing, you may want to override
-our standard navigation behavior. To do so, especify your custom handler on the
-configuration object for `startTestBox` method:
+our standard navigation behavior. To do so, specify your custom handler in the
+configuration object for the `startTestBox` method:
 
 ```javascript
 const testboxConfig = {
@@ -64,6 +64,10 @@ const testboxConfig = {
 startTestBox(testboxConfig);
 
 ```
+
+Keep in mind that the URLs that come from TestBox are full URLs (e.g. `https://google.com/images`),
+and not only the specific route (`/images`). You might have to manipulate the URL
+to use it with a custom navigation behavior. 
 
 ### Auto-login
 
