@@ -10,7 +10,7 @@
   "scripts": {
     "format": "prettier --write src/",
     "format:check": "prettier --check src/",
-    "test": "npm run build && cypress",
+    "test": "npm run build && cypress open",
     "dev": "webpack serve --mode development --config ./webpack.config.js",
     "build": "tsc && esbuild --bundle --minify --outfile=static/cdn.js cypress/cdn.test.ts",
     "prepare": "husky install",

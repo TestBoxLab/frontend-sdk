@@ -17,8 +17,8 @@ export interface TestBoxConfig {
   loginEventFallbackInMilliseconds?: number;
   linkTargetLoopInterval?: number;
   healthCheckInterval?: number;
+  startedByExtension?: boolean;
   window?: Window;
-
   navigateHandler?: (url: NavigateEvent) => Promise<void>;
 }
 
@@ -26,6 +26,7 @@ declare global {
   interface Window {
     __tbxConfig?: TestBoxConfig;
     __tbxLoginEvent?: LoginMessage;
+    __tbxExtensionActive?: boolean;
   }
 }
 
@@ -34,7 +35,7 @@ export function getTargetOrigin() {
 }
 
 export function getLogLevel() {
-  return window.__tbxConfig.logLevel || "none";
+  return window.__tbxConfig?.logLevel || "none";
 }
 
 export function getConfigItem<K extends keyof TestBoxConfig>(
