@@ -31,14 +31,3 @@ window.test_baseTbxConfig = {
   targetOrigin: "localhost",
   allowFullStory: true,
 };
-
-// tbxConfig
-const config = {
-  navigateHandler: window.test_fakeNavigateHandler,
-  loginHandler: window.test_fakeLoginHandler,
-  logLevel: "error",
-  ...window.test_baseTbxConfig,
-};
-
-// @ts-ignore
-// startTestBox(config);
