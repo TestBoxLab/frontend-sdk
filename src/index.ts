@@ -54,7 +54,7 @@ export function startTestBox(config?: TestBoxConfig) {
 
   if (window.__tbxExtensionActive && !config.startedByExtension) {
     // Checking for Extension
-    info(
+    warn(
       "Extension is Active and SDK start had a different origin. Blocking SDK start"
     );
     return;
