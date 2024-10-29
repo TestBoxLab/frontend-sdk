@@ -2,10 +2,10 @@ import { getLogLevel } from "../config";
 
 export enum LogLevel {
   none = 0,
-  debug = 1,
-  info = 2,
-  warn = 3,
-  error = 4,
+  error = 1,
+  warn = 2,
+  info = 3,
+  debug = 4,
 }
 
 function logLevel() {
@@ -24,26 +24,38 @@ function logLevel() {
   throw Error("No log level known");
 }
 
-export function info(event: string, ...payload: any) {
+export function info(event: string, payload?: Object) {
   if (logLevel() >= LogLevel.info) {
-    console.info(JSON.stringify({ event, ...payload }));
+    let logContent: string = payload
+      ? JSON.stringify({ event, ...payload })
+      : event;
+    console.info(`[TBX SDK]: ${logContent}`);
   }
 }
 
-export function debug(event: string, ...payload: any) {
+export function debug(event: string, payload?: Object) {
   if (logLevel() >= LogLevel.debug) {
-    console.debug(JSON.stringify({ event, ...payload }));
+    let logContent: string = payload
+      ? JSON.stringify({ event, ...payload })
+      : event;
+    console.debug(`[TBX SDK]: ${logContent}`);
   }
 }
 
-export function warn(event: string, ...payload: any) {
+export function warn(event: string, payload?: Object) {
   if (logLevel() >= LogLevel.warn) {
-    console.warn(JSON.stringify({ event, ...payload }));
+    let logContent: string = payload
+      ? JSON.stringify({ event, ...payload })
+      : event;
+    console.warn(`[TBX SDK]: ${logContent}`);
   }
 }
 
-export function error(event: string, ...payload: any) {
+export function error(event: string, payload?: Object) {
   if (logLevel() >= LogLevel.error) {
-    console.error(JSON.stringify({ event, ...payload }));
+    let logContent: string = payload
+      ? JSON.stringify({ event, ...payload })
+      : event;
+    console.error(`[TBX SDK]: ${logContent}`);
   }
 }

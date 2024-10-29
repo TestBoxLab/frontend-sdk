@@ -4,7 +4,7 @@ import { INITIALIZE_REQUEST } from "./messaging/outgoing";
 import { LoginEvent, NavigateEvent } from "./messaging/incoming";
 import { messageHandler } from "./message-event";
 import { routeMessage } from "./router";
-import { warn } from "./utils/logging";
+import { info, warn } from "./utils/logging";
 
 let tbxStarted = false;
 
@@ -23,7 +23,7 @@ export async function registerLoginHandler(newLoginHandler: LoginHandler) {
 
   if (!tbxStarted) {
     throw new Error(
-      "StartTestbox function must be called before registering login handler!"
+      "startTestBox function must be called before registering login handler!"
     );
   }
 
@@ -43,13 +43,25 @@ export async function registerLoginHandler(newLoginHandler: LoginHandler) {
 }
 
 export function startTestBox(config?: TestBoxConfig) {
+  // Verifications
   if (tbxStarted) {
+    info("SDK already started");
     return;
   }
 
   window.__tbxConfig = config;
-  window.__tbxLoginEvent = null;
+  info("Starting SDK...");
 
+  if (window.__tbxExtensionActive && !config.startedByExtension) {
+    // Checking for Extension
+    warn(
+      "Extension is Active and SDK start had a different origin. Blocking SDK start"
+    );
+    return;
+  }
+
+  // Handlers
+  window.__tbxLoginEvent = null;
   if (window.__tbxConfig.navigateHandler) {
     navigateHandler = window.__tbxConfig.navigateHandler;
   } else {
@@ -63,9 +75,9 @@ export function startTestBox(config?: TestBoxConfig) {
   }
 
   window.addEventListener("message", messageEventCallback);
-
   sendMessageToTestBox(INITIALIZE_REQUEST);
   tbxStarted = true;
+  info("SDK Started!");
 }
 
 export const start = startTestBox;
