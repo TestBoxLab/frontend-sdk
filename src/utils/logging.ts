@@ -2,10 +2,10 @@ import { getLogLevel } from "../config";
 
 export enum LogLevel {
   none = 0,
-  debug = 1,
-  info = 2,
-  warn = 3,
-  error = 4,
+  error = 1,
+  warn = 2,
+  info = 3,
+  debug = 4,
 }
 
 function logLevel() {
